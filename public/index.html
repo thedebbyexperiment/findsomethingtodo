@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';">
+<meta name="referrer" content="no-referrer">
+<title>FindSomethingToDo — NYC Kids Activities</title>
+<meta name="description" content="Discover 1,000+ kid-friendly activities across NYC for ages 0–12. Museums, parks, shows, sports, and more.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#FAFAF7;--card:#FFF;--text:#1D1B18;--t2:#706B64;--t3:#B0A99F;
+  --border:#EBE7E2;--accent:#D4593A;--warm:#F3EDE6;--r:12px;
+}
+body{
+  font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+body::before{
+  content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg fill='none' stroke='%235C4033' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M80 60l3 10h11l-9 7 4 10-9-7-9 7 4-10-9-7h11z'/%3E%3Ccircle cx='480' cy='90' r='14'/%3E%3Cpath d='M480 70v-8M480 110v8M460 90h-8M500 90h8'/%3E%3Cpath d='M150 160c0-12 10-22 22-22 6 0 12 3 16 7 3-5 9-7 14-7 10 0 18 8 18 18h2c8 0 14 6 14 14s-6 14-14 14H148c-8 0-14-6-14-14 4-2 10-6 16-10z'/%3E%3Ccircle cx='400' cy='180' r='5'/%3E%3Cellipse cx='400' cy='168' rx='4' ry='8'/%3E%3Cellipse cx='412' cy='174' rx='4' ry='8' transform='rotate(60 412 174)'/%3E%3Cellipse cx='388' cy='174' rx='4' ry='8' transform='rotate(120 388 174)'/%3E%3Cpath d='M400 193v24'/%3E%3Ccircle cx='70' cy='400' r='16'/%3E%3Ccircle cx='120' cy='400' r='16'/%3E%3Cpath d='M70 400l20-24h28l-16 24'/%3E%3Cellipse cx='300' cy='340' rx='13' ry='16'/%3E%3Cpath d='M300 356v16'/%3E%3Cpath d='M520' cy='350' d='M520 340l32-24 32 24v40h-64z'/%3E%3Cpath d='M40 560c16-8 32 8 48 0s32-8 48 0 32 8 48 0 32-8 48 0 32 8 48 0 32-8 48 0 32 8 48 0 32-8 48 0 32 8 48 0'/%3E%3C/g%3E%3C/svg%3E");
+  background-size:600px 600px;
+}
+body>*{position:relative;z-index:1}
+
+/* Header */
+header{
+  background:rgba(255,255,255,.92);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100;
+}
+.hdr{max-width:960px;margin:0 auto;padding:14px 24px;display:flex;justify-content:space-between;align-items:center}
+.logo{font-family:'Fraunces',Georgia,serif;font-size:1.1rem;font-weight:700;color:var(--text)}
+.logo span{color:var(--accent)}
+.city{font-size:.78rem;color:var(--t2);background:var(--warm);padding:5px 12px;border-radius:16px;font-weight:500}
+
+/* Hero */
+.hero{max-width:960px;margin:0 auto;padding:44px 24px 20px}
+.hero h1{font-family:'Fraunces',Georgia,serif;font-size:2rem;font-weight:700;letter-spacing:-.3px;line-height:1.2;margin-bottom:6px}
+.hero p{color:var(--t2);font-size:.95rem;margin-bottom:24px}
+
+/* Search */
+.search{display:flex;gap:8px;flex-wrap:wrap;max-width:520px}
+.search input,.search select{
+  padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;
+  font-size:.88rem;font-family:inherit;background:#fff;color:var(--text);outline:none;
+}
+.search input:focus,.search select:focus{border-color:var(--accent)}
+.search input{flex:1;min-width:140px}
+.search select{cursor:pointer}
+.search button{
+  padding:10px 22px;background:var(--accent);color:#fff;border:none;border-radius:20px;
+  font-size:.88rem;font-weight:600;font-family:inherit;cursor:pointer;
+}
+.search button:hover{background:#C04E31}
+
+/* Weather strip */
+.wx{max-width:960px;margin:0 auto;padding:16px 24px 0}
+.wx-row{
+  display:flex;gap:0;border-radius:var(--r);border:1px solid var(--border);
+  background:var(--card);overflow:hidden;
+}
+.wx-day{
+  flex:1;padding:14px 18px;cursor:pointer;border-right:1px solid var(--border);
+  transition:background .15s;position:relative;
+}
+.wx-day:last-child{border-right:none}
+.wx-day:hover{background:var(--warm)}
+.wx-day.on{background:var(--warm)}
+.wx-day.on::after{
+  content:'';position:absolute;bottom:0;left:20%;right:20%;height:2px;
+  background:var(--accent);border-radius:2px;
+}
+.wx-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--t3)}
+.wx-main{display:flex;align-items:center;gap:8px;margin:4px 0 2px}
+.wx-temp{font-family:'Fraunces',serif;font-size:1.05rem;font-weight:600}
+.wx-icon{font-size:1.1rem}
+.wx-desc{font-size:.78rem;color:var(--t2);line-height:1.3}
+.wx-tip{font-size:.72rem;font-weight:600;color:var(--accent);margin-top:3px}
+
+/* Filters */
+.filters{max-width:960px;margin:0 auto;padding:16px 24px 4px}
+.f-row{display:flex;flex-wrap:wrap;gap:5px;align-items:center;margin-bottom:8px}
+.f-sep{width:1px;height:18px;background:var(--border);margin:0 6px}
+.chip{
+  padding:5px 12px;border:1.5px solid var(--border);border-radius:16px;background:#fff;
+  font-size:.78rem;font-weight:500;font-family:inherit;color:var(--t2);
+  cursor:pointer;transition:all .12s;user-select:none;
+}
+.chip:hover{border-color:var(--t3)}
+.chip.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+.chip.tog{border-style:solid}
+.chip.tog.on{background:var(--text);color:var(--bg);border-color:var(--text)}
+
+/* Price slider */
+.price-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.price-label{font-size:.82rem;color:var(--t2);font-weight:500;min-width:90px}
+.price-label strong{color:var(--text)}
+.price-slider{
+  flex:1;max-width:260px;-webkit-appearance:none;appearance:none;height:4px;
+  background:var(--border);border-radius:2px;outline:none;cursor:pointer;
+}
+.price-slider::-webkit-slider-thumb{
+  -webkit-appearance:none;width:18px;height:18px;border-radius:50%;
+  background:var(--text);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15);cursor:pointer;
+}
+.price-slider::-moz-range-thumb{
+  width:18px;height:18px;border-radius:50%;
+  background:var(--text);border:2px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.15);cursor:pointer;
+}
+.free-tog{margin-left:8px}
+.f-label{font-size:.72rem;font-weight:600;text-transform:uppercase;letter-spacing:.5px;color:var(--t3);margin-right:2px}
+
+/* Results bar */
+.rbar{max-width:960px;margin:0 auto;padding:2px 24px 10px;display:flex;justify-content:space-between;align-items:center}
+.rcount{font-size:.82rem;color:var(--t3);font-weight:500}
+.rsort{display:flex;align-items:center;gap:6px}
+.rsort label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.3px;color:var(--t3)}
+.rsort select{
+  padding:6px 28px 6px 10px;border:1.5px solid var(--border);border-radius:8px;
+  font-size:.8rem;font-family:inherit;background:#fff;cursor:pointer;color:var(--text);outline:none;
+}
+
+/* Cards */
+.grid{
+  max-width:960px;margin:0 auto;padding:0 24px 60px;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:10px;
+}
+.card{
+  background:var(--card);border:1px solid var(--border);border-radius:var(--r);
+  display:flex;flex-direction:column;transition:box-shadow .2s,transform .15s;
+  cursor:pointer;
+}
+.card:hover{box-shadow:0 4px 20px rgba(44,36,32,.06);transform:translateY(-1px)}
+.card-top{padding:18px 18px 0;display:flex;justify-content:space-between;align-items:flex-start;gap:10px}
+.card-cat{font-size:.65rem;font-weight:600;text-transform:uppercase;letter-spacing:.7px;color:var(--accent);margin-bottom:3px}
+.card-name{font-family:'Fraunces',serif;font-size:1rem;font-weight:600;line-height:1.25;color:var(--text)}
+.card-price{flex-shrink:0;text-align:right}
+.card-price .amt{font-size:.9rem;font-weight:700;color:var(--text)}
+.card-price .note{font-size:.68rem;color:var(--t3)}
+.card-price .free{
+  display:inline-block;background:#ECFDF5;color:#059669;font-size:.76rem;
+  font-weight:700;padding:3px 10px;border-radius:6px;
+}
+.card-body{padding:10px 18px 14px;flex:1}
+.card-desc{font-size:.84rem;color:var(--t2);line-height:1.45;margin-bottom:12px;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
+}
+.card-meta{display:flex;flex-direction:column;gap:4px}
+.meta{font-size:.8rem;color:var(--t2);display:flex;align-items:center;gap:7px}
+.meta svg{width:14px;height:14px;flex-shrink:0;opacity:.45}
+.meta.warn{color:var(--accent);font-weight:500}
+.meta.warn svg{opacity:.7}
+.card-foot{
+  padding:10px 18px;border-top:1px solid var(--border);
+  display:flex;justify-content:space-between;align-items:center;
+}
+.card-dist{font-size:.78rem;color:var(--t3);font-weight:500}
+.card-link{font-size:.8rem;font-weight:600;color:var(--accent);text-decoration:none}
+.card-link:hover{text-decoration:underline}
+
+/* Disclaimer */
+.disclaimer{
+  max-width:960px;margin:0 auto;padding:16px 24px 40px;
+}
+.disclaimer-text{
+  font-size:.72rem;color:var(--t3);line-height:1.5;border-top:1px solid var(--border);padding-top:16px;
+}
+
+/* Loading */
+.loading{text-align:center;padding:60px 24px;color:var(--t3)}
+.loading h3{font-family:'Fraunces',serif;color:var(--text);margin-bottom:4px}
+
+/* Empty */
+.empty{text-align:center;padding:56px 24px;color:var(--t3)}
+.empty h3{font-family:'Fraunces',serif;color:var(--text);margin-bottom:4px}
+
+/* Responsive */
+@media(max-width:640px){
+  .hero h1{font-size:1.5rem}
+  .search{flex-direction:column;max-width:100%}
+  .grid{grid-template-columns:1fr}
+  .wx-row{flex-direction:column}
+  .wx-day{border-right:none;border-bottom:1px solid var(--border)}
+  .wx-day:last-child{border-bottom:none}
+  .filters{gap:4px}
+  .chip{padding:4px 10px;font-size:.74rem}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="hdr">
+    <div class="logo">find<span>something</span>todo</div>
+    <div class="city">New York City</div>
+  </div>
+</header>
+
+<div class="hero">
+  <h1>What should the kids do<br>this weekend?</h1>
+  <p>Activities for ages 0-12 across NYC, sorted by what actually matters.</p>
+  <div class="search">
+    <input type="text" id="zip" placeholder="Your zip code" maxlength="5" inputmode="numeric" pattern="[0-9]*">
+    <select id="age">
+      <option value="">Any age</option>
+      <option value="0-1">0-1 yr</option>
+      <option value="1-3">1-3 yrs</option>
+      <option value="2-5">2-5 yrs</option>
+      <option value="3-6">3-6 yrs</option>
+      <option value="5-8">5-8 yrs</option>
+      <option value="6-10">6-10 yrs</option>
+      <option value="8-12">8-12 yrs</option>
+    </select>
+    <button id="searchBtn">Search</button>
+  </div>
+</div>
+
+<!-- Weather -->
+<div class="wx">
+  <div class="wx-row">
+    <div class="wx-day on" data-day="sat">
+      <div class="wx-label">Saturday</div>
+      <div class="wx-main"><span class="wx-icon"></span><span class="wx-temp">--</span></div>
+      <div class="wx-desc">Loading weather...</div>
+    </div>
+    <div class="wx-day" data-day="sun">
+      <div class="wx-label">Sunday</div>
+      <div class="wx-main"><span class="wx-icon"></span><span class="wx-temp">--</span></div>
+      <div class="wx-desc">Loading weather...</div>
+    </div>
+  </div>
+</div>
+
+<!-- Filters -->
+<div class="filters">
+  <div class="f-row">
+    <button class="chip on" data-g="exp" data-v="all">All</button>
+    <button class="chip" data-g="exp" data-v="active">Active</button>
+    <button class="chip" data-g="exp" data-v="creative">Creative</button>
+    <button class="chip" data-g="exp" data-v="educational">Educational</button>
+    <button class="chip" data-g="exp" data-v="nature">Nature</button>
+    <button class="chip" data-g="exp" data-v="performance">Performance</button>
+    <button class="chip" data-g="exp" data-v="events">Events</button>
+    <div class="f-sep"></div>
+    <button class="chip tog" data-g="env" data-v="indoor">Indoor</button>
+    <button class="chip tog" data-g="env" data-v="outdoor">Outdoor</button>
+  </div>
+
+  <div class="f-row">
+    <span class="f-label">Parent participation</span>
+    <button class="chip on" data-g="pv" data-v="all">Any</button>
+    <button class="chip" data-g="pv" data-v="not_required">Not required</button>
+    <button class="chip" data-g="pv" data-v="required">Required</button>
+  </div>
+
+  <div class="price-row">
+    <span class="price-label">Price <strong id="priceVal">Any</strong></span>
+    <input type="range" class="price-slider" id="priceSlider" min="0" max="5" value="5" step="1">
+  </div>
+</div>
+
+<div class="rbar">
+  <div class="rcount" id="cnt"></div>
+  <div class="rsort">
+    <label>Sort</label>
+    <select id="sort">
+      <option value="recommended">Recommended</option>
+      <option value="distance">Distance</option>
+      <option value="price-low">Price: Low-High</option>
+      <option value="price-high">Price: High-Low</option>
+    </select>
+  </div>
+</div>
+
+<div class="grid" id="grid"></div>
+<div class="loading" id="loading"><h3>Loading activities...</h3></div>
+<div class="empty" id="empty" style="display:none"><h3>Nothing matches</h3><p>Try fewer filters.</p></div>
+
+<div class="disclaimer">
+  <div class="disclaimer-text" id="disclaimer"></div>
+</div>
+
+<script>
+/* ============================================================
+   FindSomethingToDo — Frontend
+   Security: all scraped data is HTML-escaped before rendering.
+   No inline event handlers — all listeners attached in JS.
+   ============================================================ */
+
+// --- HTML escaping to prevent XSS from scraped data ---
+const ESC_MAP = {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'};
+function esc(s) {
+  if (typeof s !== 'string') return '';
+  return s.replace(/[&<>"']/g, c => ESC_MAP[c]);
+}
+
+// --- URL validation — only allow http/https ---
+function safeUrl(u) {
+  if (typeof u !== 'string') return '#';
+  try {
+    const url = new URL(u);
+    if (url.protocol === 'http:' || url.protocol === 'https:') return u;
+  } catch {}
+  return '#';
+}
+
+// --- Zip code lookup ---
+const Z={
+"10001":[40.7484,-73.9967],"10002":[40.7157,-73.9863],"10003":[40.7317,-73.9893],
+"10004":[40.6988,-74.0381],"10009":[40.7265,-73.9795],"10010":[40.7390,-73.9826],
+"10011":[40.7418,-74.0002],"10012":[40.7258,-73.9981],"10013":[40.7200,-74.0048],
+"10014":[40.7340,-74.0054],"10016":[40.7459,-73.9781],"10018":[40.7549,-73.9929],
+"10019":[40.7654,-73.9855],"10021":[40.7694,-73.9588],"10022":[40.7587,-73.9674],
+"10023":[40.7764,-73.9828],"10024":[40.7859,-73.9760],"10025":[40.7985,-73.9667],
+"10028":[40.7762,-73.9537],"10032":[40.8380,-73.9428],"10036":[40.7597,-73.9899],
+"10065":[40.7645,-73.9632],"10128":[40.7815,-73.9510],
+"10301":[40.6433,-74.0770],"10460":[40.8414,-73.8793],
+"11201":[40.6934,-73.9897],"11211":[40.7128,-73.9536],"11213":[40.6712,-73.9365],
+"11215":[40.6622,-73.9866],"11217":[40.6824,-73.9794],"11225":[40.6630,-73.9541],
+"11238":[40.6796,-73.9634],"11101":[40.7479,-73.9387],"11106":[40.7618,-73.9319],
+"11224":[40.5771,-73.9893],"11368":[40.7498,-73.8528],
+};
+
+// --- State ---
+let D = [];          // activities loaded from JSON
+let day = 'sat';
+let uc = null;       // user coords
+let F = {exp:'all', pv:'all', indoor:false, outdoor:false, maxPrice:Infinity};
+
+// Weather placeholder — will be real weather when API is wired
+const W = {
+  sat:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}},
+  sun:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}}
+};
+
+// SVG icons
+const ico = {
+  pin:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>',
+  clock:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>',
+  kid:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/></svg>',
+  rain:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 13v8M8 13v8M12 15v8M20 16.58A5 5 0 0018 7h-1.26A8 8 0 104 15.25"/></svg>',
+  tix:'<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 10h20"/></svg>'
+};
+
+// --- Haversine distance ---
+function hav(a1,o1,a2,o2){
+  const R=3959,dA=(a2-a1)*Math.PI/180,dO=(o2-o1)*Math.PI/180;
+  const x=Math.sin(dA/2)**2+Math.cos(a1*Math.PI/180)*Math.cos(a2*Math.PI/180)*Math.sin(dO/2)**2;
+  return R*2*Math.atan2(Math.sqrt(x),Math.sqrt(1-x));
+}
+
+// --- Season check ---
+function inSeason(s){
+  if(!s) return true;
+  const m={jan:1,feb:2,mar:3,apr:4,may:5,jun:6,jul:7,aug:8,sep:9,oct:10,nov:11,dec:12};
+  const p=s.split('-'); if(p.length!==2) return true;
+  const a=m[p[0]],b=m[p[1]],now=new Date().getMonth()+1;
+  return a<=b ? (now>=a&&now<=b) : (now>=a||now<=b);
+}
+
+// --- Load activities from JSON ---
+async function loadData() {
+  try {
+    const resp = await fetch('data/activities.json');
+    if (!resp.ok) throw new Error('Failed to load activities');
+    const data = await resp.json();
+
+    // Map pipeline schema to frontend schema
+    D = (data.activities || []).map(a => ({
+      id: a.id,
+      n: a.name || '',
+      cat: a.category || '',
+      exp: a.experience_type || '',
+      pv: a.parent_participation || 'not_required',
+      d: a.description || '',
+      addr: a.address || '',
+      lat: typeof a.lat === 'number' ? a.lat : 0,
+      lng: typeof a.lng === 'number' ? a.lng : 0,
+      ageMin: typeof a.age_min === 'number' ? a.age_min : 0,
+      ageMax: typeof a.age_max === 'number' ? a.age_max : 12,
+      price: typeof a.price_min === 'number' ? a.price_min : 0,
+      pL: a.price_display || (a.price_min ? '$' + a.price_min : 'Free'),
+      in: !!a.indoor,
+      hrs: a.hours || '',
+      url: a.url || '',
+      res: !!a.reservation_required,
+      t: Array.isArray(a.time_slots) ? a.time_slots : ['morning','afternoon'],
+      seasonal: a.seasonal || null,
+    }));
+
+    // Show disclaimer
+    if (data.disclaimer) {
+      document.getElementById('disclaimer').textContent = data.disclaimer.full;
+    }
+
+    document.getElementById('loading').style.display = 'none';
+    go();
+  } catch (err) {
+    document.getElementById('loading').innerHTML =
+      '<h3>Could not load activities</h3><p>Please try refreshing the page.</p>';
+  }
+}
+
+// --- Day picker ---
+document.querySelectorAll('.wx-day').forEach(el => {
+  el.addEventListener('click', function() {
+    day = this.dataset.day;
+    document.querySelectorAll('.wx-day').forEach(e => e.classList.remove('on'));
+    this.classList.add('on');
+    go();
+  });
+});
+
+// --- Filter: single-select within group ---
+document.querySelectorAll('.chip:not(.tog)').forEach(el => {
+  el.addEventListener('click', function() {
+    const g = this.dataset.g;
+    document.querySelectorAll('.chip[data-g="'+g+'"]').forEach(c => c.classList.remove('on'));
+    this.classList.add('on');
+    F[g] = this.dataset.v;
+    go();
+  });
+});
+
+// --- Filter: toggle (indoor/outdoor) ---
+document.querySelectorAll('.chip.tog').forEach(el => {
+  el.addEventListener('click', function() {
+    this.classList.toggle('on');
+    F.indoor = document.querySelector('.chip[data-v="indoor"]').classList.contains('on');
+    F.outdoor = document.querySelector('.chip[data-v="outdoor"]').classList.contains('on');
+    go();
+  });
+});
+
+// --- Price slider ---
+const priceStops = [0, 10, 25, 50, 100, Infinity];
+const priceLabels = ['Free', '\u2264$10', '\u2264$25', '\u2264$50', '\u2264$100', 'Any'];
+
+document.getElementById('priceSlider').addEventListener('input', function() {
+  const i = parseInt(this.value);
+  document.getElementById('priceVal').textContent = priceLabels[i];
+  F.maxPrice = priceStops[i];
+  go();
+});
+
+// --- Search button + Enter key ---
+document.getElementById('searchBtn').addEventListener('click', go);
+document.getElementById('zip').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') go();
+});
+document.getElementById('age').addEventListener('change', go);
+document.getElementById('sort').addEventListener('change', go);
+
+// --- Zip validation: only digits ---
+document.getElementById('zip').addEventListener('input', function() {
+  this.value = this.value.replace(/\D/g, '').slice(0, 5);
+});
+
+// --- Main filter/sort/render ---
+function go() {
+  if (!D.length) return;
+
+  const zip = document.getElementById('zip').value.trim();
+  const age = document.getElementById('age').value;
+  const sort = document.getElementById('sort').value;
+
+  if (zip && Z[zip]) uc = Z[zip];
+  else if (zip && zip.length === 5) uc = [40.7549, -73.984]; // default NYC center
+
+  let list = D.filter(a => {
+    if (a.seasonal && !inSeason(a.seasonal)) return false;
+    if (age) {
+      const [lo, hi] = age.split('-').map(Number);
+      if (a.ageMin > hi || a.ageMax < lo) return false;
+    }
+    if (F.exp !== 'all' && a.exp !== F.exp) return false;
+    if (F.pv === 'not_required' && a.pv !== 'not_required') return false;
+    if (F.pv === 'required' && a.pv === 'not_required') return false;
+    if (F.indoor && !F.outdoor && !a.in) return false;
+    if (F.outdoor && !F.indoor && a.in) return false;
+    if (F.maxPrice !== Infinity && a.price > F.maxPrice) return false;
+    return true;
+  });
+
+  list.forEach(a => { a._d = uc ? hav(uc[0], uc[1], a.lat, a.lng) : null; });
+
+  const w = W[day];
+  function wscore(a) {
+    if (a.in) return 0;
+    const bad = a.t.filter(t => w[t] && !w[t].ok);
+    if (bad.length === a.t.length) return 50;
+    if (bad.length > 0) return 10;
+    return -5;
+  }
+
+  if (sort === 'distance' && uc) list.sort((a, b) => a._d - b._d);
+  else if (sort === 'price-low') list.sort((a, b) => a.price - b.price);
+  else if (sort === 'price-high') list.sort((a, b) => b.price - a.price);
+  else list.sort((a, b) => wscore(a) - wscore(b));
+
+  render(list);
+}
+
+function render(list) {
+  const grid = document.getElementById('grid');
+  const empty = document.getElementById('empty');
+  document.getElementById('cnt').textContent = list.length + ' activit' + (list.length === 1 ? 'y' : 'ies');
+
+  if (!list.length) { grid.innerHTML = ''; empty.style.display = 'block'; return; }
+  empty.style.display = 'none';
+
+  const w = W[day];
+
+  grid.innerHTML = list.map(a => {
+    const dist = a._d !== null ? a._d.toFixed(1) + ' mi' : '';
+    const price = a.price === 0
+      ? '<span class="free">Free</span>'
+      : '<div class="amt">$' + esc(String(a.price % 1 === 0 ? a.price : a.price.toFixed(2))) + '</div><div class="note">per person</div>';
+
+    // Weather warning
+    let warn = '';
+    if (!a.in) {
+      const bad = a.t.filter(t => w[t] && !w[t].ok);
+      const good = a.t.filter(t => !w[t] || w[t].ok);
+      if (bad.length > 0 && good.length > 0) {
+        warn = '<div class="meta warn">' + ico.rain + 'Rain in the ' + esc(bad.join('/')) + ' — try the ' + esc(good.join('/')) + '</div>';
+      } else if (bad.length === a.t.length) {
+        warn = '<div class="meta warn">' + ico.rain + 'Rain expected — consider indoor</div>';
+      }
+    }
+
+    const resLine = a.res ? '<div class="meta">' + ico.tix + 'Reservation recommended</div>' : '';
+    const href = safeUrl(a.url);
+
+    return '<div class="card" data-url="' + esc(href) + '">' +
+      '<div class="card-top">' +
+        '<div>' +
+          '<div class="card-cat">' + esc(a.cat) + '</div>' +
+          '<div class="card-name">' + esc(a.n) + '</div>' +
+        '</div>' +
+        '<div class="card-price">' + price + '</div>' +
+      '</div>' +
+      '<div class="card-body">' +
+        '<div class="card-desc">' + esc(a.d) + '</div>' +
+        '<div class="card-meta">' +
+          '<div class="meta">' + ico.pin + esc(a.addr) + '</div>' +
+          (a.hrs ? '<div class="meta">' + ico.clock + esc(a.hrs) + '</div>' : '') +
+          '<div class="meta">' + ico.kid + 'Ages ' + esc(String(a.ageMin)) + '-' + esc(String(a.ageMax)) + '</div>' +
+          warn + resLine +
+        '</div>' +
+      '</div>' +
+      '<div class="card-foot">' +
+        '<span class="card-dist">' + esc(dist) + '</span>' +
+        '<a class="card-link" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">Learn more &rarr;</a>' +
+      '</div>' +
+    '</div>';
+  }).join('');
+
+  // Attach click handlers to cards (instead of inline onclick)
+  grid.querySelectorAll('.card').forEach(card => {
+    card.addEventListener('click', function(e) {
+      if (e.target.closest('.card-link')) return; // let link handle itself
+      const url = this.dataset.url;
+      if (url && url !== '#') window.open(url, '_blank', 'noopener,noreferrer');
+    });
+  });
+}
+
+// --- Boot ---
+loadData();
+</script>
+</body>
+</html>

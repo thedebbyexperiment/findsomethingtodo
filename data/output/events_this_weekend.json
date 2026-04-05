@@ -1,0 +1,32 @@
+[
+  {
+    "id": "gplaces-ChIJ123",
+    "name": "American Museum of Natural History",
+    "category": "Museum",
+    "experience_type": "educational",
+    "parent_participation": "not_required",
+    "description": "World-renowned museum with dinosaur fossils, planetarium, and interactive exhibits.",
+    "address": "200 Central Park West, New York, NY 10024",
+    "lat": 40.7813,
+    "lng": -73.974,
+    "age_min": 0,
+    "age_max": 12,
+    "price_min": 23.0,
+    "price_max": 28.0,
+    "price_display": "$23\u2013$28",
+    "indoor": true,
+    "hours": "Wed-Sun 10am-5:30pm",
+    "url": "https://www.amnh.org",
+    "reservation_required": true,
+    "time_slots": [
+      "morning",
+      "afternoon"
+    ],
+    "seasonal": null,
+    "source": "google_places",
+    "source_id": "ChIJ123",
+    "event_date": null,
+    "last_updated": "2026-04-04T20:13:57.655550",
+    "data_type": "venue"
+  }
+]

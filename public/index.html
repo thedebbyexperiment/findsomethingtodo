@@ -178,7 +178,6 @@ header{
 
 /* Responsive */
 @media(max-width:640px){
-  .hdr,.hero,.wx,.filters,.rbar,.grid,.disclaimer{padding-left:16px;padding-right:16px}
   .hero h1{font-size:1.5rem}
   .search{flex-direction:row;flex-wrap:wrap;max-width:100%}
   .search input{flex:1;min-width:0}
@@ -188,8 +187,9 @@ header{
   .wx-row{flex-direction:column}
   .wx-day{border-right:none;border-bottom:1px solid var(--border)}
   .wx-day:last-child{border-bottom:none}
-  .filters{gap:4px}
-  .chip{padding:4px 10px;font-size:.74rem}
+  .f-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .chip{padding:4px 10px;font-size:.74rem;flex-shrink:0}
+  .f-sep{display:none}
   .price-row{flex-wrap:wrap}
   .price-slider{max-width:100%}
   .price-label{min-width:auto}

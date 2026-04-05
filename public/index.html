@@ -424,7 +424,7 @@ function isRainy(code) { return RAIN_CODES.has(code); }
 async function loadWeather() {
   try {
     const [sat, sun] = getNextWeekendDates();
-    const fmt = d => d.toISOString().slice(0,10);
+    const fmt = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
     const url = 'https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.006' +
       '&hourly=temperature_2m,weather_code&temperature_unit=fahrenheit' +
       '&start_date=' + fmt(sat) + '&end_date=' + fmt(sun) +
@@ -493,7 +493,8 @@ async function loadWeather() {
     // Re-render with weather data
     go();
   } catch(e) {
-    // Weather fails silently — cards still work, just no rain warnings
+    console.warn('Weather load failed:', e);
+    document.querySelectorAll('.wx-desc').forEach(el => el.textContent = 'Weather unavailable');
   }
 }
 

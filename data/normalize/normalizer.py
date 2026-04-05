@@ -19,7 +19,10 @@ You will receive a batch of event listings. For each one, determine if it's suit
 Return a JSON array with one object per event, in the same order. No markdown, just the JSON array."""
 
 BATCH_PROMPT = """For each event below, determine:
-1. Could a parent reasonably bring kids (ages 0-12) to this? Be INCLUSIVE — only filter out things that are clearly inappropriate for children (bars, nightclubs, adult comedy, explicit concerts, etc.). Sports events, dog shows, cultural exhibitions, parades, outdoor festivals, and similar "all-ages" events ARE suitable even if not specifically marketed to kids.
+1. Could a parent reasonably bring kids (ages 0-12) to this AS A DROP-IN VISITOR — without enrollment, membership, or registration in a multi-week program? Be INCLUSIVE for things the public can attend: sports events, dog shows, cultural exhibitions, parades, outdoor festivals, museums, parks, and similar "all-ages" events ARE suitable even if not specifically marketed to kids. But mark as NOT family-friendly:
+   - Bars, nightclubs, adult comedy, explicit concerts
+   - Schools, academies, or programs that REQUIRE enrollment or semester registration (e.g. music schools, dance academies, martial arts dojos that only offer enrolled classes — unless they explicitly have drop-in or open-play options)
+   - Private clubs or members-only facilities with no public access
 2. If suitable, extract structured fields.
 
 Return a JSON array where each element has:
@@ -48,6 +51,12 @@ OBVIOUS_KID_CATEGORIES = [
     "park", "bowling", "kids", "toy", "baby", "toddler",
 ]
 
+# Categories that look kid-friendly but may require enrollment — always send to LLM
+ENROLLMENT_KEYWORDS = [
+    "school", "academy", "studio", "classes", "camp", "preschool",
+    "training", "institute", "program",
+]
+
 
 def _needs_llm_review(a: Activity) -> bool:
     """Decide whether an activity needs LLM review or can be auto-approved."""
@@ -55,6 +64,9 @@ def _needs_llm_review(a: Activity) -> bool:
         return False
     if a.source == "google_places":
         text = f"{a.name} {a.category}".lower()
+        # Enrollment-based places always need LLM review
+        if any(kw in text for kw in ENROLLMENT_KEYWORDS):
+            return True
         if any(kw in text for kw in OBVIOUS_KID_CATEGORIES):
             return False
     return True

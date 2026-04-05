@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.open-meteo.com;">
 <meta name="referrer" content="no-referrer">
 <title>FindSomethingToDo — NYC Kids Activities</title>
 <meta name="description" content="Discover 1,000+ kid-friendly activities across NYC for ages 0–12. Museums, parks, shows, sports, and more.">
@@ -329,11 +329,136 @@ let day = 'sat';
 let uc = null;       // user coords
 let F = {exp:'all', pv:'all', indoor:false, outdoor:false, maxPrice:Infinity};
 
-// Weather placeholder — will be real weather when API is wired
-const W = {
+// Weather — loaded from Open-Meteo (free, no API key)
+let W = {
   sat:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}},
   sun:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}}
 };
+
+function getNextWeekendDates() {
+  const now = new Date();
+  const dow = now.getDay(); // 0=Sun
+  const daysToSat = (6 - dow + 7) % 7 || 7; // next Saturday (or this Saturday if before noon)
+  if (dow === 6) {
+    // It's Saturday
+    const sat = new Date(now); sat.setHours(0,0,0,0);
+    const sun = new Date(sat); sun.setDate(sun.getDate() + 1);
+    return [sat, sun];
+  }
+  if (dow === 0) {
+    // It's Sunday — show last yesterday (Sat) + today (Sun)
+    const sun = new Date(now); sun.setHours(0,0,0,0);
+    const sat = new Date(sun); sat.setDate(sat.getDate() - 1);
+    return [sat, sun];
+  }
+  const sat = new Date(now); sat.setDate(now.getDate() + daysToSat); sat.setHours(0,0,0,0);
+  const sun = new Date(sat); sun.setDate(sun.getDate() + 1);
+  return [sat, sun];
+}
+
+const WMO_ICONS = {
+  0:'\u2600\uFE0F',1:'\uD83C\uDF24\uFE0F',2:'\u26C5',3:'\u2601\uFE0F',
+  45:'\uD83C\uDF2B\uFE0F',48:'\uD83C\uDF2B\uFE0F',
+  51:'\uD83C\uDF26\uFE0F',53:'\uD83C\uDF27\uFE0F',55:'\uD83C\uDF27\uFE0F',
+  56:'\uD83C\uDF28\uFE0F',57:'\uD83C\uDF28\uFE0F',
+  61:'\uD83C\uDF26\uFE0F',63:'\uD83C\uDF27\uFE0F',65:'\uD83C\uDF27\uFE0F',
+  66:'\uD83C\uDF28\uFE0F',67:'\uD83C\uDF28\uFE0F',
+  71:'\uD83C\uDF28\uFE0F',73:'\u2744\uFE0F',75:'\u2744\uFE0F',77:'\u2744\uFE0F',
+  80:'\uD83C\uDF26\uFE0F',81:'\uD83C\uDF27\uFE0F',82:'\uD83C\uDF27\uFE0F',
+  85:'\uD83C\uDF28\uFE0F',86:'\uD83C\uDF28\uFE0F',
+  95:'\u26C8\uFE0F',96:'\u26C8\uFE0F',99:'\u26C8\uFE0F'
+};
+const WMO_DESC = {
+  0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',
+  45:'Foggy',48:'Depositing rime fog',
+  51:'Light drizzle',53:'Moderate drizzle',55:'Dense drizzle',
+  56:'Light freezing drizzle',57:'Dense freezing drizzle',
+  61:'Slight rain',63:'Moderate rain',65:'Heavy rain',
+  66:'Light freezing rain',67:'Heavy freezing rain',
+  71:'Slight snow',73:'Moderate snow',75:'Heavy snow',77:'Snow grains',
+  80:'Slight rain showers',81:'Moderate rain showers',82:'Violent rain showers',
+  85:'Slight snow showers',86:'Heavy snow showers',
+  95:'Thunderstorm',96:'Thunderstorm with slight hail',99:'Thunderstorm with heavy hail'
+};
+const RAIN_CODES = new Set([51,53,55,56,57,61,63,65,66,67,80,81,82,85,86,95,96,99]);
+
+function isRainy(code) { return RAIN_CODES.has(code); }
+
+async function loadWeather() {
+  try {
+    const [sat, sun] = getNextWeekendDates();
+    const fmt = d => d.toISOString().slice(0,10);
+    const url = 'https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.006' +
+      '&hourly=temperature_2m,weather_code&temperature_unit=fahrenheit' +
+      '&start_date=' + fmt(sat) + '&end_date=' + fmt(sun) +
+      '&timezone=America%2FNew_York';
+    const resp = await fetch(url);
+    if (!resp.ok) return;
+    const data = await resp.json();
+    const hours = data.hourly.time;
+    const temps = data.hourly.temperature_2m;
+    const codes = data.hourly.weather_code;
+
+    function dayStats(dateStr) {
+      const morning = {temps:[], codes:[]};
+      const afternoon = {temps:[], codes:[]};
+      const evening = {temps:[], codes:[]};
+      hours.forEach((h, i) => {
+        if (!h.startsWith(dateStr)) return;
+        const hr = parseInt(h.slice(11,13));
+        if (hr >= 6 && hr < 12) { morning.temps.push(temps[i]); morning.codes.push(codes[i]); }
+        else if (hr >= 12 && hr < 17) { afternoon.temps.push(temps[i]); afternoon.codes.push(codes[i]); }
+        else if (hr >= 17 && hr < 21) { evening.temps.push(temps[i]); evening.codes.push(codes[i]); }
+      });
+      const avg = arr => arr.length ? Math.round(arr.reduce((a,b)=>a+b,0)/arr.length) : null;
+      const mode = arr => arr.length ? arr.sort((a,b)=>arr.filter(v=>v===a).length-arr.filter(v=>v===b).length).pop() : 0;
+      const mCode = mode(morning.codes), aCode = mode(afternoon.codes), eCode = mode(evening.codes);
+      const dominant = mode([...morning.codes, ...afternoon.codes, ...evening.codes]);
+      const hiTemp = Math.round(Math.max(...morning.temps, ...afternoon.temps, ...evening.temps));
+      return {
+        hi: hiTemp, icon: WMO_ICONS[dominant] || '\u2600\uFE0F',
+        desc: WMO_DESC[dominant] || 'Clear',
+        morning: {ok: !isRainy(mCode)},
+        afternoon: {ok: !isRainy(aCode)},
+        evening: {ok: !isRainy(eCode)},
+        mRain: isRainy(mCode), aRain: isRainy(aCode), eRain: isRainy(eCode)
+      };
+    }
+
+    const satStats = dayStats(fmt(sat));
+    const sunStats = dayStats(fmt(sun));
+
+    W.sat = {morning: satStats.morning, afternoon: satStats.afternoon, evening: satStats.evening};
+    W.sun = {morning: sunStats.morning, afternoon: sunStats.afternoon, evening: sunStats.evening};
+
+    // Build weather description strings
+    function weatherDesc(s) {
+      const parts = [];
+      if (s.mRain) parts.push('Rain in the morning');
+      if (s.aRain) parts.push('rain afternoon');
+      if (s.eRain) parts.push('rain evening');
+      if (!parts.length) return s.desc;
+      return parts.join(', ');
+    }
+
+    // Update Saturday strip
+    const satEl = document.querySelector('.wx-day[data-day="sat"]');
+    satEl.querySelector('.wx-icon').textContent = satStats.icon;
+    satEl.querySelector('.wx-temp').textContent = satStats.hi + '\u00B0F';
+    satEl.querySelector('.wx-desc').textContent = weatherDesc(satStats);
+
+    // Update Sunday strip
+    const sunEl = document.querySelector('.wx-day[data-day="sun"]');
+    sunEl.querySelector('.wx-icon').textContent = sunStats.icon;
+    sunEl.querySelector('.wx-temp').textContent = sunStats.hi + '\u00B0F';
+    sunEl.querySelector('.wx-desc').textContent = weatherDesc(sunStats);
+
+    // Re-render with weather data
+    go();
+  } catch(e) {
+    // Weather fails silently — cards still work, just no rain warnings
+  }
+}
 
 // SVG icons
 const ico = {
@@ -570,6 +695,7 @@ function render(list) {
 
 // --- Boot ---
 loadData();
+loadWeather();
 </script>
 </body>
 </html>

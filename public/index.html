@@ -259,6 +259,12 @@ header{
     <span class="price-label">Price <strong id="priceVal">Any</strong></span>
     <input type="range" class="price-slider" id="priceSlider" min="0" max="5" value="5" step="1">
   </div>
+
+  <div class="price-row">
+    <span class="price-label">Distance <strong id="distVal">Any</strong></span>
+    <input type="range" class="price-slider" id="distSlider" min="0" max="5" value="5" step="1">
+    <span class="dist-hint" id="distHint" style="font-size:.72rem;color:var(--t3);min-width:80px"></span>
+  </div>
 </div>
 
 <div class="rbar">
@@ -365,7 +371,7 @@ const Z={
 let D = [];          // activities loaded from JSON
 let day = new Date().getDay() === 0 ? 'sun' : 'sat'; // auto-detect Sunday
 let uc = null;       // user coords
-let F = {exp:'all', pv:'all', indoor:false, outdoor:false, maxPrice:Infinity};
+let F = {exp:'all', pv:'all', indoor:false, outdoor:false, maxPrice:Infinity, maxDist:Infinity};
 
 // Weather — loaded from Open-Meteo (free, no API key)
 let W = {
@@ -609,6 +615,19 @@ document.getElementById('priceSlider').addEventListener('input', function() {
   go();
 });
 
+// --- Distance slider ---
+const distStops = [0.5, 1, 2, 5, 15, Infinity];
+const distLabels = ['\u22640.5 mi', '\u22641 mi', '\u22642 mi', '\u22645 mi', '\u226415 mi', 'Any'];
+const distHints = ['~10 min walk', '~20 min walk', '~40 min walk / short ride', 'short drive / train', 'longer commute', ''];
+
+document.getElementById('distSlider').addEventListener('input', function() {
+  const i = parseInt(this.value);
+  document.getElementById('distVal').textContent = distLabels[i];
+  document.getElementById('distHint').textContent = distHints[i];
+  F.maxDist = distStops[i];
+  go();
+});
+
 // --- Search button + Enter key ---
 document.getElementById('searchBtn').addEventListener('click', go);
 document.getElementById('zip').addEventListener('keydown', function(e) {
@@ -651,6 +670,11 @@ function go() {
   });
 
   list.forEach(a => { a._d = uc ? hav(uc[0], uc[1], a.lat, a.lng) : null; });
+
+  // Distance filter (only applies when zip is entered)
+  if (uc && F.maxDist !== Infinity) {
+    list = list.filter(a => a._d !== null && a._d <= F.maxDist);
+  }
 
   const w = W[day];
   const anyRainToday = ['morning','afternoon','evening'].some(t => w[t] && !w[t].ok);

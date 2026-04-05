@@ -202,7 +202,7 @@ header{
 </header>
 
 <div class="hero">
-  <h1>What should the kids do<br>this weekend?</h1>
+  <h1>What should the kids do<br>today?</h1>
   <p>Activities for ages 0-12 across NYC, sorted by what actually matters.</p>
   <div class="search">
     <input type="text" id="zip" placeholder="Your zip code" maxlength="5" inputmode="numeric" pattern="[0-9]*">
@@ -223,13 +223,13 @@ header{
 <!-- Weather -->
 <div class="wx">
   <div class="wx-row">
-    <div class="wx-day" data-day="sat">
-      <div class="wx-label">Saturday</div>
+    <div class="wx-day" data-day="today">
+      <div class="wx-label">Today</div>
       <div class="wx-main"><span class="wx-icon"></span><span class="wx-temp">--</span></div>
       <div class="wx-desc">Loading weather...</div>
     </div>
-    <div class="wx-day" data-day="sun">
-      <div class="wx-label">Sunday</div>
+    <div class="wx-day" data-day="tomorrow">
+      <div class="wx-label">Tomorrow</div>
       <div class="wx-main"><span class="wx-icon"></span><span class="wx-temp">--</span></div>
       <div class="wx-desc">Loading weather...</div>
     </div>
@@ -371,35 +371,20 @@ const Z={
 
 // --- State ---
 let D = [];          // activities loaded from JSON
-let day = new Date().getDay() === 0 ? 'sun' : 'sat'; // auto-detect Sunday
+let day = 'today';
 let uc = null;       // user coords
 let F = {exp:'all', pv:'all', indoor:false, outdoor:false, maxPrice:Infinity, maxDist:Infinity};
 
 // Weather — loaded from Open-Meteo (free, no API key)
 let W = {
-  sat:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}},
-  sun:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}}
+  today:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}},
+  tomorrow:{morning:{ok:true},afternoon:{ok:true},evening:{ok:true}}
 };
 
-function getNextWeekendDates() {
-  const now = new Date();
-  const dow = now.getDay(); // 0=Sun
-  const daysToSat = (6 - dow + 7) % 7 || 7; // next Saturday (or this Saturday if before noon)
-  if (dow === 6) {
-    // It's Saturday
-    const sat = new Date(now); sat.setHours(0,0,0,0);
-    const sun = new Date(sat); sun.setDate(sun.getDate() + 1);
-    return [sat, sun];
-  }
-  if (dow === 0) {
-    // It's Sunday — show last yesterday (Sat) + today (Sun)
-    const sun = new Date(now); sun.setHours(0,0,0,0);
-    const sat = new Date(sun); sat.setDate(sat.getDate() - 1);
-    return [sat, sun];
-  }
-  const sat = new Date(now); sat.setDate(now.getDate() + daysToSat); sat.setHours(0,0,0,0);
-  const sun = new Date(sat); sun.setDate(sun.getDate() + 1);
-  return [sat, sun];
+function getTodayTomorrowDates() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
+  return [today, tomorrow];
 }
 
 const WMO_ICONS = {
@@ -432,11 +417,11 @@ function isRainy(code) { return RAIN_CODES.has(code); }
 
 async function loadWeather() {
   try {
-    const [sat, sun] = getNextWeekendDates();
+    const [today, tomorrow] = getTodayTomorrowDates();
     const fmt = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
     const url = 'https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.006' +
       '&hourly=temperature_2m,weather_code&temperature_unit=fahrenheit' +
-      '&start_date=' + fmt(sat) + '&end_date=' + fmt(sun) +
+      '&start_date=' + fmt(today) + '&end_date=' + fmt(tomorrow) +
       '&timezone=America%2FNew_York';
     const resp = await fetch(url);
     if (!resp.ok) return;
@@ -471,13 +456,12 @@ async function loadWeather() {
       };
     }
 
-    const satStats = dayStats(fmt(sat));
-    const sunStats = dayStats(fmt(sun));
+    const todayStats = dayStats(fmt(today));
+    const tomorrowStats = dayStats(fmt(tomorrow));
 
-    W.sat = {morning: satStats.morning, afternoon: satStats.afternoon, evening: satStats.evening};
-    W.sun = {morning: sunStats.morning, afternoon: sunStats.afternoon, evening: sunStats.evening};
+    W.today = {morning: todayStats.morning, afternoon: todayStats.afternoon, evening: todayStats.evening};
+    W.tomorrow = {morning: tomorrowStats.morning, afternoon: tomorrowStats.afternoon, evening: tomorrowStats.evening};
 
-    // Build weather description strings
     function weatherDesc(s) {
       const parts = [];
       if (s.mRain) parts.push('Rain in the morning');
@@ -487,17 +471,15 @@ async function loadWeather() {
       return parts.join(', ');
     }
 
-    // Update Saturday strip
-    const satEl = document.querySelector('.wx-day[data-day="sat"]');
-    satEl.querySelector('.wx-icon').textContent = satStats.icon;
-    satEl.querySelector('.wx-temp').textContent = satStats.hi + '\u00B0F';
-    satEl.querySelector('.wx-desc').textContent = weatherDesc(satStats);
+    const todayEl = document.querySelector('.wx-day[data-day="today"]');
+    todayEl.querySelector('.wx-icon').textContent = todayStats.icon;
+    todayEl.querySelector('.wx-temp').textContent = todayStats.hi + '\u00B0F';
+    todayEl.querySelector('.wx-desc').textContent = weatherDesc(todayStats);
 
-    // Update Sunday strip
-    const sunEl = document.querySelector('.wx-day[data-day="sun"]');
-    sunEl.querySelector('.wx-icon').textContent = sunStats.icon;
-    sunEl.querySelector('.wx-temp').textContent = sunStats.hi + '\u00B0F';
-    sunEl.querySelector('.wx-desc').textContent = weatherDesc(sunStats);
+    const tomorrowEl = document.querySelector('.wx-day[data-day="tomorrow"]');
+    tomorrowEl.querySelector('.wx-icon').textContent = tomorrowStats.icon;
+    tomorrowEl.querySelector('.wx-temp').textContent = tomorrowStats.hi + '\u00B0F';
+    tomorrowEl.querySelector('.wx-desc').textContent = weatherDesc(tomorrowStats);
 
     // Re-render with weather data
     go();
@@ -761,7 +743,7 @@ function render(list) {
 
 // --- Boot ---
 // Highlight the correct day tab
-document.querySelector('.wx-day[data-day="' + day + '"]').classList.add('on');
+document.querySelector('.wx-day[data-day="today"]').classList.add('on');
 loadData();
 loadWeather();
 </script>

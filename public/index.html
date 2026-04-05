@@ -95,10 +95,10 @@ header{
 
 /* Price slider */
 .price-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-.price-label{font-size:.82rem;color:var(--t2);font-weight:500;min-width:90px}
+.price-label{font-size:.82rem;color:var(--t2);font-weight:500;min-width:110px}
 .price-label strong{color:var(--text)}
 .price-slider{
-  flex:1;max-width:260px;-webkit-appearance:none;appearance:none;height:4px;
+  width:260px;flex-shrink:0;-webkit-appearance:none;appearance:none;height:4px;
   background:var(--border);border-radius:2px;outline:none;cursor:pointer;
 }
 .price-slider::-webkit-slider-thumb{
@@ -263,7 +263,6 @@ header{
   <div class="price-row">
     <span class="price-label">Distance <strong id="distVal">Any</strong></span>
     <input type="range" class="price-slider" id="distSlider" min="0" max="5" value="5" step="1">
-    <span class="dist-hint" id="distHint" style="font-size:.72rem;color:var(--t3);min-width:80px"></span>
   </div>
 </div>
 
@@ -616,14 +615,12 @@ document.getElementById('priceSlider').addEventListener('input', function() {
 });
 
 // --- Distance slider ---
-const distStops = [0.5, 1, 2, 5, 15, Infinity];
-const distLabels = ['\u22640.5 mi', '\u22641 mi', '\u22642 mi', '\u22645 mi', '\u226415 mi', 'Any'];
-const distHints = ['~10 min walk', '~20 min walk', '~40 min walk / short ride', 'short drive / train', 'longer commute', ''];
+const distStops = [0.5, 1, 2, 5, 10, Infinity];
+const distLabels = ['0.5 mi', '1 mi', '2 mi', '5 mi', '10 mi', 'Any'];
 
 document.getElementById('distSlider').addEventListener('input', function() {
   const i = parseInt(this.value);
   document.getElementById('distVal').textContent = distLabels[i];
-  document.getElementById('distHint').textContent = distHints[i];
   F.maxDist = distStops[i];
   go();
 });

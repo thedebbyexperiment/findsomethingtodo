@@ -296,6 +296,43 @@ function esc(s) {
   return s.replace(/[&<>"']/g, c => ESC_MAP[c]);
 }
 
+// --- Convert 24hr time to 12hr (e.g. "15:00" → "3:00 PM") ---
+function fmt12(s) {
+  if (typeof s !== 'string') return '';
+  return s.replace(/\b(\d{1,2}):(\d{2})\b/g, function(m, h, min) {
+    const hr = parseInt(h, 10);
+    if (hr > 23) return m;
+    const suffix = hr >= 12 ? 'PM' : 'AM';
+    const h12 = hr === 0 ? 12 : hr > 12 ? hr - 12 : hr;
+    return h12 + ':' + min + ' ' + suffix;
+  });
+}
+
+// --- Clean up bad Google Places categories ---
+const CAT_REMAP = {
+  'Sports School':'Classes','Educational Institution':'Learning Center',
+  'Sports Activity Location':'Activity Center',
+  'Sports Club':'Activity Center','Sports Complex':'Activity Center',
+  'Sports & Swim':'Activity Center','Exercise Classes':'Classes',
+  'Child Care Agency':'Childcare','Childrens Camp':'Camp',
+  'Summer Camp Organizer':'Camp','Non Profit Organization':'Community',
+  'Association Or Organization':'Community','Consultant':'Classes',
+  'Coworking Space':'Community Center','Internet Cafe':'Activity Center',
+  'Parking Lot':'Venue','Shopping Mall':'Venue','Grocery Store':'Market',
+  'Supermarket':'Market','Food Court':'Food','Cafeteria':'Food',
+  'Catering Service':'Food','Vegetarian Restaurant':'Food','Restaurant':'Food',
+  'Primary School':'Classes','Preschool':'Classes','College':'Classes',
+  'Scenic Spot':'Park','City Park':'Park','Nature Preserve':'Nature Center',
+  'Historical Landmark':'Museum','Paintball Center':'Activity Center',
+  'Alternative Rock':'Concert','Nu-Metal':'Concert','Classical/Vocal':'Concert',
+  'Miscellaneous':'Activity','Professional':'Sports','Motorsports/Racing':'Sports',
+  'Running/Jogging':'Sports','Walking':'Activity','Observation Deck':'Attraction',
+  'Tourist Attraction':'Attraction','Point Of Interest':'Attraction',
+  'Fitness Center':'Activity Center','Dance Hall':'Dance Classes',
+  'Theme Park & Entertainment':'Amusement Park',
+};
+function cleanCat(c) { return CAT_REMAP[c] || c; }
+
 // --- URL validation — only allow http/https ---
 function safeUrl(u) {
   if (typeof u !== 'string') return '#';
@@ -662,7 +699,7 @@ function render(list) {
     return '<div class="card" data-url="' + esc(href) + '">' +
       '<div class="card-top">' +
         '<div>' +
-          '<div class="card-cat">' + esc(a.cat) + '</div>' +
+          '<div class="card-cat">' + esc(cleanCat(a.cat)) + '</div>' +
           '<div class="card-name">' + esc(a.n) + '</div>' +
         '</div>' +
         '<div class="card-price">' + price + '</div>' +
@@ -671,7 +708,7 @@ function render(list) {
         '<div class="card-desc">' + esc(a.d) + '</div>' +
         '<div class="card-meta">' +
           '<div class="meta">' + ico.pin + esc(a.addr) + '</div>' +
-          (a.hrs ? '<div class="meta">' + ico.clock + esc(a.hrs) + '</div>' : '') +
+          '<div class="meta">' + ico.clock + (a.hrs ? esc(fmt12(a.hrs)) : 'Check website for hours') + '</div>' +
           '<div class="meta">' + ico.kid + 'Ages ' + esc(String(a.ageMin)) + '-' + esc(String(a.ageMax)) + '</div>' +
           warn + resLine +
         '</div>' +

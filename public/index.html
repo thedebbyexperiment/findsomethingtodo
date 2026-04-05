@@ -16,8 +16,9 @@
 }
 body{
   font-family:'DM Sans',system-ui,sans-serif;background:var(--bg);color:var(--text);
-  -webkit-font-smoothing:antialiased;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
+html{overflow-x:hidden}
 body::before{
   content:'';position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.03;
   background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='600'%3E%3Cg fill='none' stroke='%235C4033' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M80 60l3 10h11l-9 7 4 10-9-7-9 7 4-10-9-7h11z'/%3E%3Ccircle cx='480' cy='90' r='14'/%3E%3Cpath d='M480 70v-8M480 110v8M460 90h-8M500 90h8'/%3E%3Cpath d='M150 160c0-12 10-22 22-22 6 0 12 3 16 7 3-5 9-7 14-7 10 0 18 8 18 18h2c8 0 14 6 14 14s-6 14-14 14H148c-8 0-14-6-14-14 4-2 10-6 16-10z'/%3E%3Ccircle cx='400' cy='180' r='5'/%3E%3Cellipse cx='400' cy='168' rx='4' ry='8'/%3E%3Cellipse cx='412' cy='174' rx='4' ry='8' transform='rotate(60 412 174)'/%3E%3Cellipse cx='388' cy='174' rx='4' ry='8' transform='rotate(120 388 174)'/%3E%3Cpath d='M400 193v24'/%3E%3Ccircle cx='70' cy='400' r='16'/%3E%3Ccircle cx='120' cy='400' r='16'/%3E%3Cpath d='M70 400l20-24h28l-16 24'/%3E%3Cellipse cx='300' cy='340' rx='13' ry='16'/%3E%3Cpath d='M300 356v16'/%3E%3Cpath d='M520' cy='350' d='M520 340l32-24 32 24v40h-64z'/%3E%3Cpath d='M40 560c16-8 32 8 48 0s32-8 48 0 32 8 48 0 32-8 48 0 32 8 48 0 32-8 48 0 32 8 48 0 32-8 48 0 32 8 48 0'/%3E%3C/g%3E%3C/svg%3E");
@@ -179,10 +180,10 @@ header{
 /* Responsive */
 @media(max-width:640px){
   .hero h1{font-size:1.5rem}
-  .search{flex-direction:row;flex-wrap:wrap;max-width:100%}
-  .search input{flex:1;min-width:0}
-  .search select{flex:1;min-width:0}
-  .search button{flex:0 0 auto}
+  .hero{padding:32px 24px 16px}
+  .search{display:grid;grid-template-columns:1fr 1fr;gap:8px;max-width:100%}
+  .search input,.search select{width:100%}
+  .search button{grid-column:1/-1}
   .grid{grid-template-columns:1fr}
   .wx-row{flex-direction:column}
   .wx-day{border-right:none;border-bottom:1px solid var(--border)}

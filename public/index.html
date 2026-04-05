@@ -187,9 +187,12 @@ header{
   .wx-row{flex-direction:column}
   .wx-day{border-right:none;border-bottom:1px solid var(--border)}
   .wx-day:last-child{border-bottom:none}
-  .f-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding-bottom:4px}
+  .filters{padding-left:0;padding-right:0}
+  .f-row{flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;padding:0 24px 4px;scrollbar-width:none}
+  .f-row::-webkit-scrollbar{display:none}
   .chip{padding:4px 10px;font-size:.74rem;flex-shrink:0}
   .f-sep{display:none}
+  .price-row{padding:0 24px}
   .price-row{flex-wrap:wrap}
   .price-slider{max-width:100%}
   .price-label{min-width:auto}

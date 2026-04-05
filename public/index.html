@@ -220,7 +220,7 @@ header{
 <!-- Weather -->
 <div class="wx">
   <div class="wx-row">
-    <div class="wx-day on" data-day="sat">
+    <div class="wx-day" data-day="sat">
       <div class="wx-label">Saturday</div>
       <div class="wx-main"><span class="wx-icon"></span><span class="wx-temp">--</span></div>
       <div class="wx-desc">Loading weather...</div>
@@ -362,7 +362,7 @@ const Z={
 
 // --- State ---
 let D = [];          // activities loaded from JSON
-let day = 'sat';
+let day = new Date().getDay() === 0 ? 'sun' : 'sat'; // auto-detect Sunday
 let uc = null;       // user coords
 let F = {exp:'all', pv:'all', indoor:false, outdoor:false, maxPrice:Infinity};
 
@@ -732,6 +732,8 @@ function render(list) {
 }
 
 // --- Boot ---
+// Highlight the correct day tab
+document.querySelector('.wx-day[data-day="' + day + '"]').classList.add('on');
 loadData();
 loadWeather();
 </script>

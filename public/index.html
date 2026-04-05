@@ -297,9 +297,10 @@ function esc(s) {
 }
 
 // --- Convert 24hr time to 12hr (e.g. "15:00" → "3:00 PM") ---
+// Skip times already followed by AM/PM to avoid "10:00 AM AM"
 function fmt12(s) {
   if (typeof s !== 'string') return '';
-  return s.replace(/\b(\d{1,2}):(\d{2})\b/g, function(m, h, min) {
+  return s.replace(/\b(\d{1,2}):(\d{2})(?!\s*[AaPp][Mm])\b/g, function(m, h, min) {
     const hr = parseInt(h, 10);
     if (hr > 23) return m;
     const suffix = hr >= 12 ? 'PM' : 'AM';
@@ -633,6 +634,8 @@ function go() {
   else if (zip && zip.length === 5) uc = [40.7549, -73.984]; // default NYC center
 
   let list = D.filter(a => {
+    // Filter out cancelled events
+    if (/\bcancell?ed\b/i.test(a.n)) return false;
     if (a.seasonal && !inSeason(a.seasonal)) return false;
     if (age) {
       const [lo, hi] = age.split('-').map(Number);
@@ -650,12 +653,13 @@ function go() {
   list.forEach(a => { a._d = uc ? hav(uc[0], uc[1], a.lat, a.lng) : null; });
 
   const w = W[day];
+  const anyRainToday = ['morning','afternoon','evening'].some(t => w[t] && !w[t].ok);
   function wscore(a) {
-    if (a.in) return 0;
+    if (a.in) return -10; // indoor always preferred on rainy days
     const bad = a.t.filter(t => w[t] && !w[t].ok);
-    if (bad.length === a.t.length) return 50;
-    if (bad.length > 0) return 10;
-    return -5;
+    if (bad.length === a.t.length) return 50;  // all slots rainy
+    if (bad.length > 0) return 10;             // some slots rainy
+    return anyRainToday ? 0 : -5;              // outdoor OK but don't beat indoor on rainy days
   }
 
   if (sort === 'distance' && uc) list.sort((a, b) => a._d - b._d);

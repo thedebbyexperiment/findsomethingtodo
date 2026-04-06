@@ -33,9 +33,9 @@ Return a JSON array where each element has:
 - age_max: integer 0-12 (default 12 if unclear)
 - experience_type: one of "active", "creative", "educational", "nature", "performance", "events"
 - parent_participation: "not_required" or "required"
-  Rules for parent_participation:
-  - "required" = the parent must ACTIVELY PARTICIPATE in the activity alongside the child (e.g. parent-child yoga, family cooking class, toddler swim where parent is in the water)
-  - "not_required" = the child does the activity and the parent can watch, wait, or drop off (e.g. museum visit, playground, kids art class, sports game). Note: a parent needing to SUPERVISE young children does NOT make it "required" — only activities where the parent IS a participant count as "required"
+  THIS MEANS: can a parent DROP OFF their child (ages 5-12) and LEAVE the premises?
+  - "not_required" (drop-off OK) = the venue/program accepts unaccompanied children and takes responsibility for them. Examples: kids summer camps, structured kids-only classes (art class, sports clinic, coding camp), Chelsea Piers kids programs, after-school programs. These are RARE — most places require a parent on-site.
+  - "required" (attend together) = a parent/guardian must stay on-site with the child. This is the DEFAULT for almost everything: museums, playgrounds, parks, sports games, movies, theaters, bowling, zoos, aquariums, libraries, concerts, festivals, indoor playgrounds, arcades. Even if the parent is just watching, they must be present. When in doubt, use "required".
 - indoor: true or false
 - time_slots: array of "morning", "afternoon", "evening"
 - category: a short, parent-friendly category label (e.g. "Museum", "Playground", "Theater", "Sports", "Art Studio", "Library", "Zoo", "Aquarium", "Bowling", "Classes", "Festival", "Concert", "Park", "Garden", "Swimming", "Ice Skating", "Trampoline Park"). Use your best judgment — pick the most specific label that a parent would find useful. Avoid generic labels like "Entertainment" or "Recreation".

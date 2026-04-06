@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "generated_at": "2026-04-05T17:04:22.379976Z",
-  "count": 1095,
+  "count": 1094,
   "activities": [
     {
       "id": "gplaces-ChIJd7axJ3ZZwokRpcOljhQIVqM",
@@ -19139,35 +19139,6 @@
       "source_id": "806307",
       "event_date": "2026-04-06",
       "last_updated": "2026-04-05T16:40:30.087323",
-      "data_type": "event"
-    },
-    {
-      "id": "nycparks-full-body-fitness",
-      "name": "CANCELED: Full Body Fitness",
-      "category": "Exercise Classes",
-      "experience_type": "events",
-      "parent_participation": "not_required",
-      "description": "Show your body some love with this full body fitness class open to all fitness levels.",
-      "address": "333 60th Street Brooklyn, New York, 11220, PS 503/PS 506 Beacon - Center for Family Life",
-      "lat": null,
-      "lng": null,
-      "age_min": 0,
-      "age_max": 12,
-      "price_min": 0.0,
-      "price_max": 0.0,
-      "price_display": "Free",
-      "indoor": false,
-      "hours": "6:00 PM\u20136:45 PM",
-      "url": "https://www.nycgovparks.org/events/2026/04/06/full-body-fitness",
-      "reservation_required": false,
-      "time_slots": [
-        "evening"
-      ],
-      "seasonal": null,
-      "source": "nyc_parks",
-      "source_id": "full-body-fitness",
-      "event_date": "2026-04-06",
-      "last_updated": "2026-04-05T16:39:40.519952",
       "data_type": "event"
     },
     {

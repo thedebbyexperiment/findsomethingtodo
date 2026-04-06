@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "generated_at": "2026-04-06T13:42:48.853575",
-  "count": 1111,
+  "count": 1110,
   "activities": [
     {
       "id": "gplaces-ChIJd7axJ3ZZwokRpcOljhQIVqM",
@@ -10257,35 +10257,6 @@
       "source_id": "ChIJSwAtsVxZwokROLEnEt-7NXs",
       "event_date": null,
       "last_updated": "2026-04-06T01:38:50.810493",
-      "data_type": "venue"
-    },
-    {
-      "id": "gplaces-ChIJW8I4LSb2wokRFlgJzqNOhQA",
-      "name": "NORY HQ",
-      "category": "STEM Classes",
-      "experience_type": "educational",
-      "parent_participation": "required",
-      "description": "Educational institution offering STEM learning programs and activities for children.",
-      "address": "575 8th Ave Suite 1914, New York, NY 10018, USA",
-      "lat": 40.7550226,
-      "lng": -73.9916868,
-      "age_min": 5,
-      "age_max": 12,
-      "price_min": null,
-      "price_max": null,
-      "price_display": "",
-      "indoor": true,
-      "hours": "",
-      "url": "http://www.nory.co/",
-      "reservation_required": false,
-      "time_slots": [
-        "afternoon"
-      ],
-      "seasonal": null,
-      "source": "google_places",
-      "source_id": "ChIJW8I4LSb2wokRFlgJzqNOhQA",
-      "event_date": null,
-      "last_updated": "2026-04-06T01:38:50.808223",
       "data_type": "venue"
     },
     {

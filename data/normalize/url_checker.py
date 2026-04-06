@@ -7,8 +7,11 @@ Typical runtime: ~2 minutes for 1,100 URLs with concurrency of 20.
 """
 from __future__ import annotations
 
+import ipaddress
 import logging
+import socket
 from concurrent.futures import ThreadPoolExecutor, as_completed
+from urllib.parse import urlparse
 
 import requests
 
@@ -47,10 +50,27 @@ REQUEST_TIMEOUT = 10
 MAX_WORKERS = 20
 
 
+def _is_private_ip(hostname: str) -> bool:
+    """Check if a hostname resolves to a private/internal IP (SSRF protection)."""
+    try:
+        addr = socket.gethostbyname(hostname)
+        return ipaddress.ip_address(addr).is_private
+    except (socket.gaierror, ValueError):
+        return False
+
+
 def _check_url(url: str) -> tuple[str, bool, str]:
     """Check a single URL. Returns (url, is_valid, reason)."""
     if not url:
         return url, True, "no_url"
+
+    # SSRF protection: block private/internal IPs
+    try:
+        hostname = urlparse(url).hostname
+        if hostname and _is_private_ip(hostname):
+            return url, False, "blocked: private/internal IP"
+    except Exception:
+        pass
 
     try:
         # Try HEAD first (faster)

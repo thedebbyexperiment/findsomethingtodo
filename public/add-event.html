@@ -6,7 +6,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>Add your Event — FindSomethingToDo</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" crossorigin="anonymous">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -78,8 +78,8 @@ textarea{resize:vertical;min-height:100px}
 
     <p class="section-label">I am a...</p>
     <div class="type-toggle">
-      <button id="btnParent" class="active" onclick="setType('parent')">Parent / Community</button>
-      <button id="btnCompany" onclick="setType('company')">Company / Venue</button>
+      <button id="btnParent" class="active">Parent / Community</button>
+      <button id="btnCompany">Company / Venue</button>
     </div>
 
     <div class="company-fields" id="companyFields">
@@ -126,7 +126,7 @@ textarea{resize:vertical;min-height:100px}
       <label for="consentBox" style="margin-bottom:0;font-weight:400;font-size:.78rem">I agree to the <a href="/terms.html" style="color:var(--accent)">Terms of Use &amp; Privacy Policy</a> and confirm this is a family-friendly activity.</label>
     </div>
 
-    <button class="submit-btn" onclick="submitEvent()">Submit Event</button>
+    <button class="submit-btn" id="submitBtn">Submit Event</button>
   </div>
 
   <div class="success" id="successMsg">
@@ -148,6 +148,7 @@ textarea{resize:vertical;min-height:100px}
 <script>
 let submitterType = 'parent';
 
+function sanitize(s) { return s.replace(/[\r\n]/g, ' '); }
 function setType(type) {
   submitterType = type;
   document.getElementById('btnParent').classList.toggle('active', type === 'parent');
@@ -158,10 +159,10 @@ function setType(type) {
 }
 
 function submitEvent() {
-  const name = document.getElementById('eventName').value.trim();
-  const desc = document.getElementById('eventDesc').value.trim();
-  const addr = document.getElementById('eventAddr').value.trim();
-  const contact = document.getElementById('eventContact').value.trim();
+  const name = sanitize(document.getElementById('eventName').value.trim());
+  const desc = sanitize(document.getElementById('eventDesc').value.trim());
+  const addr = sanitize(document.getElementById('eventAddr').value.trim());
+  const contact = sanitize(document.getElementById('eventContact').value.trim());
   const consent = document.getElementById('consentBox').checked;
 
   if (!name) { alert('Please enter the event name.'); return; }
@@ -169,11 +170,11 @@ function submitEvent() {
   if (submitterType === 'company' && !contact) { alert('Please enter your email so we can follow up.'); return; }
   if (!consent) { alert('Please agree to the Terms of Use & Privacy Policy.'); return; }
 
-  const companyName = document.getElementById('companyName').value.trim();
-  const companyWeb = document.getElementById('companyWebsite').value.trim();
-  const ages = document.getElementById('eventAges').value.trim();
-  const date = document.getElementById('eventDate').value.trim();
-  const price = document.getElementById('eventPrice').value.trim();
+  const companyName = sanitize(document.getElementById('companyName').value.trim());
+  const companyWeb = sanitize(document.getElementById('companyWebsite').value.trim());
+  const ages = sanitize(document.getElementById('eventAges').value.trim());
+  const date = sanitize(document.getElementById('eventDate').value.trim());
+  const price = sanitize(document.getElementById('eventPrice').value.trim());
 
   const typeLabel = submitterType === 'company' ? 'COMPANY/VENUE' : 'PARENT/COMMUNITY';
   const subject = encodeURIComponent('FindSomethingToDo Event Submission (' + typeLabel + ')');
@@ -196,6 +197,9 @@ function submitEvent() {
   document.getElementById('formCard').style.display = 'none';
   document.getElementById('successMsg').style.display = 'block';
 }
+document.getElementById('btnParent').addEventListener('click', function() { setType('parent'); });
+document.getElementById('btnCompany').addEventListener('click', function() { setType('company'); });
+document.getElementById('submitBtn').addEventListener('click', submitEvent);
 </script>
 </body>
 </html>

@@ -89,6 +89,13 @@ def _format_event(i: int, a: Activity) -> str:
     return f"[{i}] Name: {a.name} | Category: {a.category} | Description: {desc} | Hours: {a.hours} | Price: {price} | Address: {a.address}"
 
 
+def _sanitize_text(s: str, max_len: int = 500) -> str:
+    """Strip HTML/script tags and limit length for LLM-generated text."""
+    import re
+    s = re.sub(r"<[^>]+>", "", s)  # strip HTML tags
+    return s[:max_len].strip()
+
+
 def _apply_llm_fields(activity: Activity, data: dict) -> None:
     """Apply LLM-normalized fields to an activity in place."""
     if "age_min" in data:
@@ -117,9 +124,9 @@ def _apply_llm_fields(activity: Activity, data: dict) -> None:
         if slots:
             activity.time_slots = slots
     if data.get("category"):
-        activity.category = data["category"]
+        activity.category = _sanitize_text(data["category"], max_len=100)
     if data.get("short_description") and not activity.description:
-        activity.description = data["short_description"]
+        activity.description = _sanitize_text(data["short_description"], max_len=300)
 
 
 def normalize_with_llm(activities: list[Activity]) -> list[Activity]:

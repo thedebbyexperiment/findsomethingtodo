@@ -6,7 +6,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>Share Feedback — FindSomethingToDo</title>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" crossorigin="anonymous">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -77,7 +77,7 @@ textarea{resize:vertical;min-height:120px}
     <input type="email" id="feedbackEmail" placeholder="In case we have follow-up questions">
     <p class="hint">We'll never share your email. See our <a href="/terms.html" style="color:var(--accent)">privacy policy</a>.</p>
 
-    <button class="submit-btn" onclick="submitFeedback()">Send Feedback</button>
+    <button class="submit-btn" id="submitBtn">Send Feedback</button>
   </div>
 
   <div class="success" id="successMsg">
@@ -97,10 +97,11 @@ textarea{resize:vertical;min-height:120px}
 </footer>
 
 <script>
+function sanitize(s) { return s.replace(/[\r\n]/g, ' '); }
 function submitFeedback() {
-  const type = document.getElementById('feedbackType').value;
-  const msg = document.getElementById('feedbackMsg').value.trim();
-  const email = document.getElementById('feedbackEmail').value.trim();
+  const type = sanitize(document.getElementById('feedbackType').value);
+  const msg = sanitize(document.getElementById('feedbackMsg').value.trim());
+  const email = sanitize(document.getElementById('feedbackEmail').value.trim());
 
   if (!msg) { alert('Please enter your feedback.'); return; }
 
@@ -116,6 +117,7 @@ function submitFeedback() {
   document.getElementById('formCard').style.display = 'none';
   document.getElementById('successMsg').style.display = 'block';
 }
+document.getElementById('submitBtn').addEventListener('click', submitFeedback);
 </script>
 </body>
 </html>

@@ -8,7 +8,7 @@
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>FindSomethingToDo — NYC Kids Activities</title>
 <meta name="description" content="Discover 1,000+ kid-friendly activities across NYC for ages 0–12. Museums, parks, shows, sports, and more.">
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&display=swap" rel="stylesheet" crossorigin="anonymous">
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 :root{
@@ -325,9 +325,9 @@ header{
 <div class="loading" id="loading"><h3>Loading activities...</h3></div>
 <div class="empty" id="empty" style="display:none"><h3>Nothing matches</h3><p>Try fewer filters.</p></div>
 
-<div class="about-overlay" id="aboutModal" onclick="if(event.target===this)this.style.display='none'">
+<div class="about-overlay" id="aboutModal">
   <div class="about-box">
-    <button class="about-close" onclick="document.getElementById('aboutModal').style.display='none'">&times;</button>
+    <button class="about-close" id="aboutClose">&times;</button>
     <h2>About FindSomethingToDo</h2>
     <p>A free guide to kid-friendly activities across NYC for ages 0-12. We pull from dozens of sources daily so you can spend less time searching and more time doing.</p>
     <p>This is an early project and we're actively improving it. Listings may contain errors or outdated info. Always confirm details with the venue before heading out.</p>
@@ -342,7 +342,7 @@ header{
     <a href="/add-event.html">Add your Event</a>
   </div>
   <span class="footer-sep">·</span>
-  <a href="#" class="footer-about-link" onclick="document.getElementById('aboutModal').style.display='flex';return false;">About</a>
+  <a href="#" class="footer-about-link" id="aboutLink">About</a>
   <span class="footer-sep">·</span>
   <a href="/terms.html" class="footer-about-link">Terms &amp; Privacy</a>
   <div class="footer-disclaimer" id="disclaimer"></div>
@@ -822,6 +822,18 @@ function render(list) {
 document.querySelector('.wx-day[data-day="today"]').classList.add('on');
 loadData();
 loadWeather();
+
+// About modal
+document.getElementById('aboutLink').addEventListener('click', function(e) {
+  e.preventDefault();
+  document.getElementById('aboutModal').style.display = 'flex';
+});
+document.getElementById('aboutClose').addEventListener('click', function() {
+  document.getElementById('aboutModal').style.display = 'none';
+});
+document.getElementById('aboutModal').addEventListener('click', function(e) {
+  if (e.target === this) this.style.display = 'none';
+});
 </script>
 </body>
 </html>

@@ -1030,7 +1030,7 @@ CURATED_VENUES: list[dict] = [
         "address": "Hudson St & W Houston St, New York, NY 10014",
         "lat": 40.7275,
         "lng": -74.0069,
-        "url": "https://www.nycgovparks.org/parks/james-j-walker-park/facilities/playgrounds/seravalli-playground",
+        "url": "https://www.nycgovparks.org/parks/corporal-john-a-seravalli-playground",
         "category": "Playground",
         "experience_type": ExperienceType.active,
         "age_min": 0,

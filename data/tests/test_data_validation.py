@@ -176,6 +176,21 @@ def test_no_empty_categories(activities):
     assert not bad, f"Activities with empty categories: {bad}"
 
 
+def test_no_corporate_services(activities):
+    corporate_terms = ["corporate", "team building", "team-building", "corporate events",
+                       "private events only", "company outing", "offsite"]
+    bad = [a["name"] for a in activities
+           if any(t in (a.get("name", "") + " " + a.get("description", "")).lower() for t in corporate_terms)]
+    assert not bad, f"Corporate/B2B services in data: {bad}"
+
+
+def test_no_summer_camps(activities):
+    """Summer camps are enrollment-based seasonal programs, not drop-in activities."""
+    bad = [a["name"] for a in activities
+           if "summer camp" in (a.get("category", "") + " " + a.get("name", "")).lower()]
+    assert not bad, f"Summer camps in data (should be filtered — not drop-in): {bad}"
+
+
 def test_indoor_is_boolean_or_none(activities):
     bad = [(a["id"], a["indoor"]) for a in activities
            if a.get("indoor") is not None and not isinstance(a["indoor"], bool)]

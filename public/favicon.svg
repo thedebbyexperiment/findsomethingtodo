@@ -1,7 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
   <!-- Warm coral circle matching site accent #D4593A -->
   <circle cx="50" cy="50" r="50" fill="#D4593A"/>
-  <!-- Map pin icon (white) suggesting "find something" -->
-  <path d="M50 18C37 18 27 28 27 40.5C27 57 50 82 50 82S73 57 73 40.5C73 28 63 18 50 18Z" fill="white"/>
-  <circle cx="50" cy="40" r="10" fill="#D4593A"/>
+  <!-- Playground slide icon (white) -->
+  <!-- Ladder (left vertical + rungs) -->
+  <rect x="28" y="24" width="4" height="50" rx="2" fill="white"/>
+  <rect x="38" y="24" width="4" height="50" rx="2" fill="white"/>
+  <rect x="28" y="32" width="14" height="3" rx="1" fill="white"/>
+  <rect x="28" y="41" width="14" height="3" rx="1" fill="white"/>
+  <rect x="28" y="50" width="14" height="3" rx="1" fill="white"/>
+  <rect x="28" y="59" width="14" height="3" rx="1" fill="white"/>
+  <!-- Slide surface (curved path from top of ladder to ground right) -->
+  <path d="M40 26C40 26 42 26 44 28C48 32 72 70 72 74L72 76L66 76L66 74C66 72 46 36 44 32C43 30 42 30 40 30Z" fill="white"/>
+  <!-- Ground line -->
+  <rect x="22" y="74" width="56" height="3" rx="1.5" fill="white"/>
 </svg>

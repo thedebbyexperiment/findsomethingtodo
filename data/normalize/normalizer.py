@@ -26,6 +26,8 @@ BATCH_PROMPT = """For each event below, determine:
    - Grocery stores, supermarkets, wholesale suppliers, pet stores (not attractions)
    - Fish/aquarium stores (retail pet shops, not public aquariums)
    - Adult-oriented studios and classes UNLESS the name explicitly mentions kids/children/family (e.g. pottery studios, yoga studios, cooking classes, art studios that primarily serve adults). Only include a studio/class if there is clear evidence it serves children — having "kids" or "children" or "family" in the name, or being a well-known kids brand. When in doubt about a studio or class, mark as NOT family-friendly.
+   - Corporate team-building, corporate events, or B2B experience companies (e.g. scavenger hunts for companies, corporate escape rooms, team offsites). If the business primarily sells to companies/groups rather than families, mark as NOT family-friendly.
+   - Summer camps or seasonal programs that require advance registration and are not available as drop-in activities today. These are enrollment-based and not useful for a parent looking for something to do right now.
 2. If suitable, extract structured fields.
 
 Return a JSON array where each element has:
@@ -42,7 +44,7 @@ Return a JSON array where each element has:
 - time_slots: array of "morning", "afternoon", "evening"
 - category: a short, parent-friendly category label (e.g. "Museum", "Playground", "Theater", "Sports", "Art Studio", "Library", "Zoo", "Aquarium", "Bowling", "Classes", "Festival", "Concert", "Park", "Garden", "Swimming", "Ice Skating", "Trampoline Park"). Use your best judgment — pick the most specific label that a parent would find useful. Avoid generic labels like "Entertainment" or "Recreation".
 - short_description: If the event's description is empty or very generic, write ONE sentence (max 20 words) describing what a parent and kids would actually experience there. ONLY write a description if you are confident about what the place offers based on its name, category, and address. Do NOT guess or make up details. If unsure, return null.
-- quality_flag: null if everything looks normal, or a string describing the issue if something seems wrong. Flag things like: appears to be a grocery/retail store not an attraction, likely permanently closed, name suggests adult-only venue, price seems wrong for this type of venue, duplicate or suspicious listing. This helps us catch bad data.
+- quality_flag: null if everything looks normal, or a string describing the issue if something seems wrong. Flag things like: appears to be a grocery/retail store not an attraction, likely permanently closed, name suggests adult-only venue, price seems wrong for this type of venue, duplicate or suspicious listing, appears to be a corporate/B2B service, appears to be a summer camp requiring enrollment. This helps us catch bad data.
 
 Events:
 {events_text}

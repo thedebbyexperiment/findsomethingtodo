@@ -531,27 +531,7 @@ CURATED_VENUES: list[dict] = [
             },
         ],
     },
-    {
-        "name": "BOUNCE Trampoline Park",
-        "address": "1250 Broadway, New York, NY 10001",
-        "lat": 40.7489,
-        "lng": -73.9883,
-        "url": "https://www.bounceinc.com",
-        "category": "Trampoline Park",
-        "experience_type": ExperienceType.active,
-        "age_min": 3,
-        "age_max": 12,
-        "indoor": True,
-        "recurring_programs": [
-            {
-                "name": "Open Bounce",
-                "day": "Daily",
-                "time": "10:00am",
-                "description": "Open jump sessions on trampolines, foam pits, and obstacle courses.",
-                "price_display": "Varies",
-            },
-        ],
-    },
+    # BOUNCE Trampoline Park removed — website defunct (GoDaddy parked page)
     {
         "name": "City Ice Pavilion",
         "address": "47-32 32nd Pl, Long Island City, NY 11101",

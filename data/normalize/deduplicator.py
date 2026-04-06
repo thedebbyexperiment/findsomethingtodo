@@ -10,11 +10,21 @@ logger = logging.getLogger(__name__)
 
 # Source priority — higher number = prefer this source's data when merging
 SOURCE_PRIORITY = {
-    "seatgeek": 4,      # best for prices
+    "curated": 5,        # hand-picked, highest trust
+    "seatgeek": 4,       # best for prices
     "eventbrite": 3,     # good structured data
     "nyc_parks": 2,      # free events
-    "google_places": 1,  # enrichment only
+    "nypl": 2,           # free events
+    "ticketmaster": 2,   # ticketed events
+    "google_places": 1,  # enrichment only — lowest priority
 }
+
+
+def _nearby(a: Activity, b: Activity, threshold: float = 0.002) -> bool:
+    """Check if two activities are within ~200m of each other."""
+    if a.lat and b.lat and a.lng and b.lng:
+        return abs(a.lat - b.lat) < threshold and abs(a.lng - b.lng) < threshold
+    return False
 
 
 def _are_duplicates(a: Activity, b: Activity) -> bool:
@@ -27,22 +37,37 @@ def _are_duplicates(a: Activity, b: Activity) -> bool:
     if a.event_date and b.event_date and a.event_date != b.event_date:
         return False
 
+    name_a = a.name.lower()
+    name_b = b.name.lower()
+
     # Name similarity
-    name_sim = levenshtein_ratio(a.name.lower(), b.name.lower())
-    if name_sim < 0.7:
-        return False
+    name_sim = levenshtein_ratio(name_a, name_b)
 
     # If names are very similar (>0.9), likely same thing
     if name_sim > 0.9:
         return True
 
-    # Names are somewhat similar (0.7-0.9) — check location
-    if a.lat and b.lat and a.lng and b.lng:
-        # Within ~200m
-        lat_diff = abs(a.lat - b.lat)
-        lng_diff = abs(a.lng - b.lng)
-        if lat_diff < 0.002 and lng_diff < 0.002:
+    # Cross-source dedup: a Google Places venue is a duplicate of a curated
+    # program when the GP name appears inside the curated name (which has
+    # format "Venue: Program") and they are at the same location.
+    # e.g. "Intrepid Museum" (gplaces) vs "Intrepid Museum: Kids Week Programs" (curated)
+    if _nearby(a, b):
+        # One name is a prefix/substring of the other
+        if name_a in name_b or name_b in name_a:
             return True
+        # Check the venue portion of "Venue: Program" format
+        venue_a = name_a.split(":")[0].strip()
+        venue_b = name_b.split(":")[0].strip()
+        venue_sim = levenshtein_ratio(venue_a, venue_b)
+        if venue_sim > 0.7:
+            return True
+
+    if name_sim < 0.7:
+        return False
+
+    # Names are somewhat similar (0.7-0.9) — check location
+    if _nearby(a, b):
+        return True
 
     # Address similarity as fallback
     if a.address and b.address:

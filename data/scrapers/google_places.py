@@ -25,6 +25,18 @@ TYPE_MAP = {
 
 INCLUDED_TYPES = list(TYPE_MAP.keys())
 
+# Google Places types to skip at the scraper level — these produce generic
+# venues (e.g. AMC, Regal) that crowd out kid-specific results.  The curated
+# scraper already carries kid-specific cinema programs (Sensory Friendly Films,
+# Lil' Hawk, Film Forum Jr, etc.).
+SKIP_TYPES = {"movie_theater"}
+
+# Names starting with these prefixes are generic chains, not kid-specific
+GENERIC_VENUE_PREFIXES = [
+    "amc ", "regal ", "angelika", "village east", "metrograph",
+    "ipic ", "showcase cinema", "cinepolis",
+]
+
 # Text search queries for kid-specific venues that don't fit standard types
 TEXT_SEARCHES = [
     ("kids play space NYC", ExperienceType.active),
@@ -201,6 +213,20 @@ class GooglePlacesScraper(BaseScraper):
                 continue
 
             searched_type = place.get("_searched_type", "")
+            display_name = place.get("displayName", {}).get("text", "Unknown Venue")
+            name_lower = display_name.lower()
+
+            # Skip generic venue types (e.g. movie_theater → AMC, Regal)
+            if searched_type in SKIP_TYPES:
+                # Allow through if name suggests kid-specific
+                if not any(kw in name_lower for kw in ("kids", "children", "family", "junior", "sensory")):
+                    logger.debug("Skipping generic %s: %s", searched_type, display_name)
+                    continue
+
+            # Skip generic chain venues regardless of search type
+            if any(name_lower.startswith(prefix) for prefix in GENERIC_VENUE_PREFIXES):
+                logger.debug("Skipping generic chain: %s", display_name)
+                continue
             if searched_type == "text_search":
                 try:
                     experience_type = ExperienceType(place.get("_experience_type", "events"))
@@ -214,7 +240,6 @@ class GooglePlacesScraper(BaseScraper):
                 category = searched_type.replace("_", " ").title()
 
             location = place.get("location", {})
-            display_name = place.get("displayName", {}).get("text", "Unknown Venue")
 
             hours_data = place.get("regularOpeningHours", {})
             hours = _format_hours(hours_data.get("periods", []))

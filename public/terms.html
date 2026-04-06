@@ -103,6 +103,7 @@ posthog.init('phc_tKe7LRK5rJYXF2LK5cAhpLdtbEHetgxIKSVfAKpFtel', {
   autocapture: false
 });
 posthog.register({ site: 'findsomethingtodo' });
+if (localStorage.getItem('ph_internal')) posthog.opt_out_capturing();
 </script>
 </body>
 </html>

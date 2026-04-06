@@ -3027,10 +3027,10 @@
     {
       "id": "gplaces-ChIJhxjLOQBZwokRMdubblHCny8",
       "name": "CAMP, A Family Experience Store",
-      "category": "Playground",
+      "category": "Family Experience Store",
       "experience_type": "active",
       "parent_participation": "required",
-      "description": "Family experience store with interactive play and activities for kids.",
+      "description": "Immersive Bluey experience, Slime Bar, Craft Studio, and toy shop for kids and families.",
       "address": "110 5th Ave, New York, NY 10011, USA",
       "lat": 40.737594,
       "lng": -73.992695,
@@ -3040,7 +3040,7 @@
       "price_max": null,
       "price_display": "",
       "indoor": true,
-      "hours": "",
+      "hours": "Mon-Wed 10am-7pm; Thu-Sat 9am-7pm; Sun 9am-6pm",
       "url": "https://camp.com/locations/fifth-ave-nyc",
       "reservation_required": false,
       "time_slots": [

@@ -24,6 +24,7 @@ from normalize.deduplicator import deduplicate
 from normalize.geocoder import geocode_activities
 from normalize.normalizer import normalize_with_llm
 from normalize.schema import Activity
+from normalize.url_checker import validate_urls
 from scrapers.seatgeek import SeatGeekScraper
 from scrapers.ticketmaster import TicketmasterScraper
 from scrapers.eventbrite import EventbriteScraper
@@ -121,6 +122,7 @@ def main():
     parser.add_argument("--cleanup", action="store_true", help="Remove past events")
     parser.add_argument("--no-llm", action="store_true", help="Skip LLM normalization")
     parser.add_argument("--no-geocode", action="store_true", help="Skip geocoding")
+    parser.add_argument("--no-url-check", action="store_true", help="Skip URL validation")
     args = parser.parse_args()
 
     store = ActivityStore(config.DB_PATH)
@@ -167,6 +169,10 @@ def main():
 
     # Deduplicate
     activities = deduplicate(activities)
+
+    # Validate URLs (remove dead links)
+    if not args.no_url_check:
+        activities = validate_urls(activities)
 
     # Store in DB
     store.upsert(activities)

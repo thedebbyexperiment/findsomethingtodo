@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "generated_at": "2026-04-05T17:04:22.379976Z",
-  "count": 1092,
+  "count": 1095,
   "activities": [
     {
       "id": "gplaces-ChIJd7axJ3ZZwokRpcOljhQIVqM",
@@ -31424,6 +31424,99 @@
       "event_date": "2099-09-05",
       "last_updated": "2026-04-05T16:38:39.622676",
       "data_type": "event"
+    },
+    {
+      "id": "curated-seravalli-playground",
+      "name": "Seravalli Playground",
+      "category": "Playground",
+      "experience_type": "active",
+      "parent_participation": "required",
+      "description": "Popular West Village playground with climbing structures, swings, sprinklers in summer, and shaded seating.",
+      "address": "Hudson St & W Houston St, New York, NY 10014",
+      "lat": 40.7275,
+      "lng": -74.0069,
+      "age_min": 0,
+      "age_max": 12,
+      "price_min": null,
+      "price_max": null,
+      "price_display": "",
+      "indoor": false,
+      "hours": "Dawn to dusk",
+      "url": "https://www.nycgovparks.org/parks/james-j-walker-park/facilities/playgrounds/seravalli-playground",
+      "reservation_required": false,
+      "time_slots": [
+        "morning",
+        "afternoon",
+        "evening"
+      ],
+      "seasonal": null,
+      "source": "curated",
+      "source_id": "curated-seravalli-playground",
+      "event_date": null,
+      "last_updated": "2026-04-05T18:00:00",
+      "data_type": "venue"
+    },
+    {
+      "id": "curated-james-j-walker-park",
+      "name": "James J. Walker Park",
+      "category": "Park",
+      "experience_type": "active",
+      "parent_participation": "required",
+      "description": "Village park with sports fields, basketball courts, a large playground, and a dog run.",
+      "address": "Hudson St & Clarkson St, New York, NY 10014",
+      "lat": 40.7268,
+      "lng": -74.0064,
+      "age_min": 0,
+      "age_max": 12,
+      "price_min": null,
+      "price_max": null,
+      "price_display": "",
+      "indoor": false,
+      "hours": "Dawn to dusk",
+      "url": "https://www.nycgovparks.org/parks/james-j-walker-park",
+      "reservation_required": false,
+      "time_slots": [
+        "morning",
+        "afternoon",
+        "evening"
+      ],
+      "seasonal": null,
+      "source": "curated",
+      "source_id": "curated-james-j-walker-park",
+      "event_date": null,
+      "last_updated": "2026-04-05T18:00:00",
+      "data_type": "venue"
+    },
+    {
+      "id": "curated-horatio-street-playground",
+      "name": "Horatio Street Playground",
+      "category": "Playground",
+      "experience_type": "active",
+      "parent_participation": "required",
+      "description": "Small Hudson River Park playground near the Meatpacking District with slides and climbing structures.",
+      "address": "Horatio St & Greenwich St, New York, NY 10014",
+      "lat": 40.7356,
+      "lng": -74.0063,
+      "age_min": 0,
+      "age_max": 12,
+      "price_min": null,
+      "price_max": null,
+      "price_display": "",
+      "indoor": false,
+      "hours": "Dawn to dusk",
+      "url": "https://www.nycgovparks.org/parks/hudson-river-park/facilities/playgrounds",
+      "reservation_required": false,
+      "time_slots": [
+        "morning",
+        "afternoon",
+        "evening"
+      ],
+      "seasonal": null,
+      "source": "curated",
+      "source_id": "curated-horatio-street-playground",
+      "event_date": null,
+      "last_updated": "2026-04-05T18:00:00",
+      "data_type": "venue"
     }
   ]
 }

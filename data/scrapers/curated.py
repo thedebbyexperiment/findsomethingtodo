@@ -1023,6 +1023,48 @@ CURATED_VENUES: list[dict] = [
         "recurring_programs": [],
     },
     # -----------------------------------------------------------------------
+    # Playgrounds
+    # -----------------------------------------------------------------------
+    {
+        "name": "Seravalli Playground",
+        "address": "Hudson St & W Houston St, New York, NY 10014",
+        "lat": 40.7275,
+        "lng": -74.0069,
+        "url": "https://www.nycgovparks.org/parks/james-j-walker-park/facilities/playgrounds/seravalli-playground",
+        "category": "Playground",
+        "experience_type": ExperienceType.active,
+        "age_min": 0,
+        "age_max": 12,
+        "indoor": False,
+        "recurring_programs": [],
+    },
+    {
+        "name": "James J. Walker Park",
+        "address": "Hudson St & Clarkson St, New York, NY 10014",
+        "lat": 40.7268,
+        "lng": -74.0064,
+        "url": "https://www.nycgovparks.org/parks/james-j-walker-park",
+        "category": "Park",
+        "experience_type": ExperienceType.active,
+        "age_min": 0,
+        "age_max": 12,
+        "indoor": False,
+        "recurring_programs": [],
+    },
+    {
+        "name": "Horatio Street Playground",
+        "address": "Horatio St & Greenwich St, New York, NY 10014",
+        "lat": 40.7356,
+        "lng": -74.0063,
+        "url": "https://www.nycgovparks.org/parks/hudson-river-park/facilities/playgrounds",
+        "category": "Playground",
+        "experience_type": ExperienceType.active,
+        "age_min": 0,
+        "age_max": 12,
+        "indoor": False,
+        "recurring_programs": [],
+    },
+    # -----------------------------------------------------------------------
     # Event centers (venues only — events come from Ticketmaster)
     # -----------------------------------------------------------------------
     {

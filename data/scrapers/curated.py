@@ -1027,9 +1027,9 @@ CURATED_VENUES: list[dict] = [
     # -----------------------------------------------------------------------
     {
         "name": "Seravalli Playground",
-        "address": "Hudson St & W Houston St, New York, NY 10014",
-        "lat": 40.7275,
-        "lng": -74.0069,
+        "address": "Horatio St & Greenwich St, New York, NY 10014",
+        "lat": 40.7356,
+        "lng": -74.0063,
         "url": "https://www.nycgovparks.org/parks/corporal-john-a-seravalli-playground",
         "category": "Playground",
         "experience_type": ExperienceType.active,

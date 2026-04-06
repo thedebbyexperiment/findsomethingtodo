@@ -176,8 +176,26 @@ header{
 .footer-links a{color:var(--accent);text-decoration:none;font-weight:500}
 .footer-links a:hover{text-decoration:underline}
 .footer-sep{color:var(--t3);margin:0 4px}
-.footer-beta{color:var(--t3);font-style:italic}
+.footer-about-link{color:var(--t3);text-decoration:none;font-weight:500}
+.footer-about-link:hover{text-decoration:underline;color:var(--accent)}
 .footer-disclaimer{display:none}
+
+/* About modal */
+.about-overlay{
+  display:none;position:fixed;inset:0;z-index:200;
+  background:rgba(0,0,0,.4);align-items:center;justify-content:center;padding:24px;
+}
+.about-box{
+  background:var(--card);border-radius:var(--r);max-width:480px;width:100%;
+  padding:28px 24px;position:relative;box-shadow:0 8px 30px rgba(0,0,0,.15);
+}
+.about-box h2{font-family:'Fraunces',serif;font-size:1.2rem;margin-bottom:12px;color:var(--text)}
+.about-box p{font-size:.85rem;color:var(--t2);line-height:1.6;margin-bottom:10px}
+.about-box .about-close{
+  position:absolute;top:12px;right:16px;background:none;border:none;
+  font-size:1.2rem;cursor:pointer;color:var(--t3);
+}
+.about-box .about-close:hover{color:var(--text)}
 
 /* Loading */
 .loading{text-align:center;padding:60px 24px;color:var(--t3)}
@@ -307,14 +325,24 @@ header{
 <div class="loading" id="loading"><h3>Loading activities...</h3></div>
 <div class="empty" id="empty" style="display:none"><h3>Nothing matches</h3><p>Try fewer filters.</p></div>
 
+<div class="about-overlay" id="aboutModal" onclick="if(event.target===this)this.style.display='none'">
+  <div class="about-box">
+    <button class="about-close" onclick="document.getElementById('aboutModal').style.display='none'">&times;</button>
+    <h2>About FindSomethingToDo</h2>
+    <p>A free guide to kid-friendly activities across NYC for ages 0-12. We pull from dozens of sources daily so you can spend less time searching and more time doing.</p>
+    <p>This is an early project and we're actively improving it. Listings may contain errors or outdated info. Always confirm details with the venue before heading out.</p>
+    <p style="font-size:.78rem;color:var(--t3)">Have feedback or want to add your event? Reach out via the links below.</p>
+  </div>
+</div>
+
 <footer class="site-footer">
   <div class="footer-links">
     <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Feedback">Share Feedback</a>
     <span class="footer-sep">·</span>
-    <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Add%20Event">Add Events</a>
+    <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Add%20Event">Add your Event</a>
   </div>
   <span class="footer-sep">·</span>
-  <span class="footer-beta">Beta</span>
+  <a href="#" class="footer-about-link" onclick="document.getElementById('aboutModal').style.display='flex';return false;">About</a>
   <div class="footer-disclaimer" id="disclaimer"></div>
 </footer>
 

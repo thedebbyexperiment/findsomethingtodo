@@ -1198,7 +1198,7 @@ class CuratedScraper(BaseScraper):
 
                 prog_activity = Activity(
                     id=prog_id,
-                    name=prog["name"],
+                    name=f'{venue["name"]}: {prog["name"]}',
                     category=venue["category"],
                     experience_type=venue["experience_type"],
                     parent_participation=ParentParticipation.required,

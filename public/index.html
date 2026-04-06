@@ -260,10 +260,10 @@ header{
   </div>
 
   <div class="f-row">
-    <span class="f-label">Parent participation</span>
+    <span class="f-label">Parent involvement</span>
     <button class="chip on" data-g="pv" data-v="all">Any</button>
-    <button class="chip" data-g="pv" data-v="not_required">Not required</button>
-    <button class="chip" data-g="pv" data-v="required">Required</button>
+    <button class="chip" data-g="pv" data-v="not_required">Drop-off OK</button>
+    <button class="chip" data-g="pv" data-v="required">Attend together</button>
   </div>
 
   <div class="price-row">
@@ -273,7 +273,7 @@ header{
 
   <div class="price-row">
     <span class="price-label">Distance <strong id="distVal">Any</strong></span>
-    <input type="range" class="price-slider" id="distSlider" min="0" max="5" value="5" step="1">
+    <input type="range" class="price-slider" id="distSlider" min="0" max="4" value="4" step="1">
   </div>
 </div>
 
@@ -608,8 +608,8 @@ document.getElementById('priceSlider').addEventListener('input', function() {
 });
 
 // --- Distance slider ---
-const distStops = [0.5, 1, 2, 5, 10, Infinity];
-const distLabels = ['0.5 mi', '1 mi', '2 mi', '5 mi', '10 mi', 'Any'];
+const distStops = [0.25, 0.5, 0.75, 1, Infinity];
+const distLabels = ['0.25 mi', '0.5 mi', '0.75 mi', '1 mi', 'More'];
 
 document.getElementById('distSlider').addEventListener('input', function() {
   const i = parseInt(this.value);

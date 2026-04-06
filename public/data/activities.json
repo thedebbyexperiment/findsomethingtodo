@@ -5,7 +5,7 @@
     "version": "1.0"
   },
   "generated_at": "2026-04-05T17:04:22.379976Z",
-  "count": 1096,
+  "count": 1092,
   "activities": [
     {
       "id": "gplaces-ChIJd7axJ3ZZwokRpcOljhQIVqM",
@@ -478,7 +478,7 @@
     },
     {
       "id": "curated-amc-theatres-amc-sensory-friendly-films",
-      "name": "AMC Sensory Friendly Films",
+      "name": "AMC: AMC Sensory Friendly Films",
       "category": "Movie Theater",
       "experience_type": "performance",
       "parent_participation": "required",
@@ -884,7 +884,7 @@
     },
     {
       "id": "curated-alamo-drafthouse-cinema-alamo-kids-camp",
-      "name": "Alamo Kids Camp",
+      "name": "Alamo Drafthouse: Alamo Kids Camp",
       "category": "Movie Theater",
       "experience_type": "performance",
       "parent_participation": "required",
@@ -3902,33 +3902,6 @@
       "data_type": "venue"
     },
     {
-      "id": "gplaces-ChIJNcurQqBZwokRYDgoFu6QXCI",
-      "name": "Chelsea Piers",
-      "category": "Bowling Alley",
-      "experience_type": "active",
-      "parent_participation": "not_required",
-      "description": "Chelsea Piers \u2014 family-friendly sports complex in NYC.",
-      "address": "62 Chelsea Piers, New York, NY 10011, USA",
-      "lat": 40.748179199999996,
-      "lng": -74.0086142,
-      "age_min": 0,
-      "age_max": 12,
-      "price_min": null,
-      "price_max": null,
-      "price_display": "",
-      "indoor": true,
-      "hours": "",
-      "url": "https://chelseapiers.com/?utm_source=google&utm_medium=listing&utm_campaign=cpny",
-      "reservation_required": false,
-      "time_slots": [],
-      "seasonal": null,
-      "source": "google_places",
-      "source_id": "ChIJNcurQqBZwokRYDgoFu6QXCI",
-      "event_date": null,
-      "last_updated": "2026-04-05T16:40:03.068814",
-      "data_type": "venue"
-    },
-    {
       "id": "gplaces-ChIJjT7O2sdZwokR_MuDP9I3f64",
       "name": "Chelsea Piers Field House",
       "category": "Sports Complex",
@@ -4455,9 +4428,9 @@
       "lng": -74.0053337,
       "age_min": 0,
       "age_max": 12,
-      "price_min": null,
+      "price_min": 38,
       "price_max": null,
-      "price_display": "",
+      "price_display": "$38/person",
       "indoor": true,
       "hours": "",
       "url": "https://www.colorfactory.co/locations/new-york-city",
@@ -5190,7 +5163,7 @@
     },
     {
       "id": "curated-american-museum-of-natural-history-discovery-room",
-      "name": "Discovery Room",
+      "name": "AMNH: Discovery Room",
       "category": "Museum",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -6018,7 +5991,7 @@
     },
     {
       "id": "curated-brooklyn-bowl-family-bowl",
-      "name": "Family Bowl",
+      "name": "Brooklyn Bowl: Family Bowl",
       "category": "Bowling",
       "experience_type": "active",
       "parent_participation": "required",
@@ -6041,35 +6014,6 @@
       "seasonal": null,
       "source": "curated",
       "source_id": "curated-brooklyn-bowl-family-bowl",
-      "event_date": null,
-      "last_updated": "2026-04-05T16:40:30.095360",
-      "data_type": "event"
-    },
-    {
-      "id": "curated-bowlero-chelsea-piers-family-bowling",
-      "name": "Family Bowling",
-      "category": "Bowling",
-      "experience_type": "active",
-      "parent_participation": "required",
-      "description": "Family bowling with bumper lanes, arcade games, and birthday party packages.",
-      "address": "60 Chelsea Piers, New York, NY 10011",
-      "lat": 40.7472,
-      "lng": -74.0078,
-      "age_min": 3,
-      "age_max": 12,
-      "price_min": null,
-      "price_max": null,
-      "price_display": "Varies",
-      "indoor": true,
-      "hours": "Weekends | 10:00am",
-      "url": "https://www.bowlero.com",
-      "reservation_required": null,
-      "time_slots": [
-        "morning"
-      ],
-      "seasonal": null,
-      "source": "curated",
-      "source_id": "curated-bowlero-chelsea-piers-family-bowling",
       "event_date": null,
       "last_updated": "2026-04-05T16:40:30.095360",
       "data_type": "event"
@@ -6134,7 +6078,7 @@
     },
     {
       "id": "curated-museum-of-modern-art-moma-family-gallery-talks",
-      "name": "Family Gallery Talks",
+      "name": "MoMA: Family Gallery Talks",
       "category": "Museum",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -7083,7 +7027,7 @@
     },
     {
       "id": "curated-new-york-hall-of-science-great-hall-programs",
-      "name": "Great Hall Programs",
+      "name": "NY Hall of Science: Great Hall Programs",
       "category": "Museum",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -8322,7 +8266,7 @@
     },
     {
       "id": "curated-mcnally-jackson-kids-events",
-      "name": "Kids Events",
+      "name": "McNally Jackson: Kids Events",
       "category": "Bookstore",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -9123,7 +9067,7 @@
     },
     {
       "id": "curated-nitehawk-cinema-lil-hawk-family-matinees",
-      "name": "Lil' Hawk Family Matinees",
+      "name": "Nitehawk Cinema: Lil' Hawk Family Matinees",
       "category": "Movie Theater",
       "experience_type": "performance",
       "parent_participation": "required",
@@ -10413,37 +10357,6 @@
       "data_type": "venue"
     },
     {
-      "id": "gplaces-ChIJu_v7u9xZwokRU0MP_AbCAac",
-      "name": "Mulberry Market NYC",
-      "category": "Supermarket",
-      "experience_type": "events",
-      "parent_participation": "not_required",
-      "description": "",
-      "address": "251 Mulberry St, New York, NY 10012, USA",
-      "lat": 40.7232282,
-      "lng": -73.9958729,
-      "age_min": 0,
-      "age_max": 12,
-      "price_min": null,
-      "price_max": null,
-      "price_display": "",
-      "indoor": true,
-      "hours": "",
-      "url": "https://www.mulberrymarketnyc.com/",
-      "reservation_required": false,
-      "time_slots": [
-        "morning",
-        "afternoon",
-        "evening"
-      ],
-      "seasonal": null,
-      "source": "google_places",
-      "source_id": "ChIJu_v7u9xZwokRU0MP_AbCAac",
-      "event_date": null,
-      "last_updated": "2026-04-05T16:40:03.072584",
-      "data_type": "venue"
-    },
-    {
       "id": "gplaces-ChIJORNWYChawokR3nt2Jj4ha-s",
       "name": "Museum at Eldridge Street",
       "category": "History Museum",
@@ -11630,7 +11543,7 @@
     },
     {
       "id": "curated-unity-jiu-jitsu-open-kids-time",
-      "name": "Open Kids Time",
+      "name": "Unity Jiu Jitsu: Open Kids Time",
       "category": "Martial Arts",
       "experience_type": "active",
       "parent_participation": "required",
@@ -11659,7 +11572,7 @@
     },
     {
       "id": "curated-whitney-museum-of-american-art-open-studio-for-kids",
-      "name": "Open Studio for Kids",
+      "name": "Whitney Museum: Open Studio for Kids",
       "category": "Museum",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -13803,7 +13716,7 @@
     },
     {
       "id": "curated-books-of-wonder-saturday-storytime",
-      "name": "Saturday Storytime",
+      "name": "Books of Wonder: Saturday Storytime",
       "category": "Bookstore",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -14713,7 +14626,7 @@
     },
     {
       "id": "curated-books-are-magic-storytime-and-kids-events",
-      "name": "Storytime and Kids Events",
+      "name": "Books Are Magic: Storytime and Kids Events",
       "category": "Bookstore",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -15008,7 +14921,7 @@
     },
     {
       "id": "curated-brooklyn-museum-target-first-saturdays",
-      "name": "Target First Saturdays",
+      "name": "Brooklyn Museum: Target First Saturdays",
       "category": "Museum",
       "experience_type": "educational",
       "parent_participation": "required",
@@ -17259,37 +17172,6 @@
       "source_id": "ChIJ51pKtVL6wokRcgTPdEqH1ME",
       "event_date": null,
       "last_updated": "2026-04-05T16:40:03.069780",
-      "data_type": "venue"
-    },
-    {
-      "id": "gplaces-ChIJ3xZbsp5ZwokRRvzkWV-pP1U",
-      "name": "Westside Market NYC",
-      "category": "Grocery Store",
-      "experience_type": "events",
-      "parent_participation": "not_required",
-      "description": "",
-      "address": "84 3rd Ave, New York, NY 10003, USA",
-      "lat": 40.7318431,
-      "lng": -73.98865459999999,
-      "age_min": 0,
-      "age_max": 12,
-      "price_min": null,
-      "price_max": null,
-      "price_display": "",
-      "indoor": true,
-      "hours": "",
-      "url": "https://www.wmarketnyc.com/locations/84-third-avenue/",
-      "reservation_required": false,
-      "time_slots": [
-        "morning",
-        "afternoon",
-        "evening"
-      ],
-      "seasonal": null,
-      "source": "google_places",
-      "source_id": "ChIJ3xZbsp5ZwokRRvzkWV-pP1U",
-      "event_date": null,
-      "last_updated": "2026-04-05T16:40:03.072564",
       "data_type": "venue"
     },
     {

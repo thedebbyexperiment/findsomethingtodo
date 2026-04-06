@@ -19,9 +19,9 @@ VALID_PARENT_PARTICIPATION = {"not_required", "required"}
 VALID_DATA_TYPES = {"venue", "event"}
 VALID_TIME_SLOTS = {"morning", "afternoon", "evening"}
 
-# NYC + nearby metro area (includes NJ, Long Island, Westchester day trips)
-NYC_LAT_MIN, NYC_LAT_MAX = 40.4, 41.5
-NYC_LNG_MIN, NYC_LNG_MAX = -74.5, -73.3
+# 5 boroughs bounding box
+NYC_LAT_MIN, NYC_LAT_MAX = 40.49, 40.92
+NYC_LNG_MIN, NYC_LNG_MAX = -74.26, -73.68
 
 
 @pytest.fixture(scope="module")

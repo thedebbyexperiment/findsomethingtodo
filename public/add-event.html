@@ -118,7 +118,7 @@ textarea{resize:vertical;min-height:100px}
       </div>
     </div>
 
-    <label for="eventContact">Your email</label>
+    <label for="eventContact">Your email <span id="emailReq" style="display:none;color:var(--accent);font-weight:400">(required)</span><span id="emailOpt" style="color:var(--t3);font-weight:400">(optional)</span></label>
     <input type="email" id="eventContact" placeholder="So we can follow up if needed">
 
     <div class="consent">
@@ -153,6 +153,8 @@ function setType(type) {
   document.getElementById('btnParent').classList.toggle('active', type === 'parent');
   document.getElementById('btnCompany').classList.toggle('active', type === 'company');
   document.getElementById('companyFields').style.display = type === 'company' ? 'block' : 'none';
+  document.getElementById('emailReq').style.display = type === 'company' ? 'inline' : 'none';
+  document.getElementById('emailOpt').style.display = type === 'company' ? 'none' : 'inline';
 }
 
 function submitEvent() {
@@ -164,6 +166,7 @@ function submitEvent() {
 
   if (!name) { alert('Please enter the event name.'); return; }
   if (!desc) { alert('Please describe the activity.'); return; }
+  if (submitterType === 'company' && !contact) { alert('Please enter your email so we can follow up.'); return; }
   if (!consent) { alert('Please agree to the Terms of Use & Privacy Policy.'); return; }
 
   const companyName = document.getElementById('companyName').value.trim();

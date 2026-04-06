@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self' https://api.open-meteo.com; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src https://fonts.gstatic.com; script-src 'self' 'unsafe-inline' https://us-assets.i.posthog.com; img-src 'self' data:; connect-src 'self' https://api.open-meteo.com https://us.i.posthog.com; base-uri 'none'; form-action 'none'; frame-ancestors 'none';">
 <meta name="referrer" content="no-referrer">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
 <title>FindSomethingToDo — NYC Kids Activities</title>
@@ -834,6 +834,77 @@ document.getElementById('aboutClose').addEventListener('click', function() {
 document.getElementById('aboutModal').addEventListener('click', function(e) {
   if (e.target === this) this.style.display = 'none';
 });
+// --- PostHog Analytics ---
+!function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug getPageviewId".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+posthog.init('phc_tKe7LRK5rJYXF2LK5cAhpLdtbEHetgxIKSVfAKpFtel', {
+  api_host: 'https://us.i.posthog.com',
+  person_profiles: 'identified_only',
+  capture_pageview: true,
+  capture_pageleave: true,
+  autocapture: false
+});
+
+// Track search/filter engagement
+(function() {
+  var searchBtn = document.getElementById('searchBtn');
+  var _origSearch = searchBtn._events || [];
+  searchBtn.addEventListener('click', function() {
+    posthog.capture('search', {
+      zip: document.getElementById('zip').value.trim(),
+      age: document.getElementById('age').value,
+      sort: document.getElementById('sort').value
+    });
+  });
+
+  // Day toggle
+  document.querySelectorAll('.wx-day').forEach(function(el) {
+    el.addEventListener('click', function() {
+      posthog.capture('day_toggle', { day: this.dataset.day });
+    });
+  });
+
+  // Category/experience chips
+  document.querySelectorAll('.chip:not(.tog)').forEach(function(el) {
+    el.addEventListener('click', function() {
+      posthog.capture('filter_chip', { group: this.dataset.g, value: this.dataset.v });
+    });
+  });
+
+  // Indoor/outdoor toggles
+  document.querySelectorAll('.chip.tog').forEach(function(el) {
+    el.addEventListener('click', function() {
+      posthog.capture('filter_toggle', { value: this.dataset.v, active: this.classList.contains('on') });
+    });
+  });
+
+  // Price slider
+  document.getElementById('priceSlider').addEventListener('change', function() {
+    posthog.capture('price_filter', { label: document.getElementById('priceVal').textContent });
+  });
+
+  // Distance slider
+  document.getElementById('distSlider').addEventListener('change', function() {
+    posthog.capture('distance_filter', { label: document.getElementById('distVal').textContent });
+  });
+
+  // Activity card clicks (delegated)
+  document.getElementById('grid').addEventListener('click', function(e) {
+    var card = e.target.closest('.card');
+    if (!card) return;
+    var name = card.querySelector('.card-name');
+    var cat = card.querySelector('.card-cat');
+    posthog.capture('activity_click', {
+      name: name ? name.textContent : '',
+      category: cat ? cat.textContent : '',
+      url: card.dataset.url || ''
+    });
+  });
+
+  // About modal
+  document.getElementById('aboutLink').addEventListener('click', function() {
+    posthog.capture('about_opened');
+  });
+})();
 </script>
 </body>
 </html>

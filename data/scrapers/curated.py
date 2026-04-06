@@ -1064,19 +1064,6 @@ CURATED_VENUES: list[dict] = [
         "indoor": False,
         "recurring_programs": [],
     },
-    {
-        "name": "Horatio Street Playground",
-        "address": "Horatio St & Greenwich St, New York, NY 10014",
-        "lat": 40.7356,
-        "lng": -74.0063,
-        "url": "https://www.nycgovparks.org/parks/hudson-river-park/facilities/playgrounds",
-        "category": "Playground",
-        "experience_type": ExperienceType.active,
-        "age_min": 0,
-        "age_max": 12,
-        "indoor": False,
-        "recurring_programs": [],
-    },
     # -----------------------------------------------------------------------
     # Event centers (venues only — events come from Ticketmaster)
     # -----------------------------------------------------------------------

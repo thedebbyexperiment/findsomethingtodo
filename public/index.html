@@ -165,19 +165,19 @@ header{
 .card-link{font-size:.8rem;font-weight:600;color:var(--accent);text-decoration:none}
 .card-link:hover{text-decoration:underline}
 
-/* Disclaimer */
+/* Fixed footer */
 .site-footer{
-  max-width:960px;margin:0 auto;padding:24px 24px 40px;border-top:1px solid var(--border);
+  position:fixed;bottom:0;left:0;right:0;z-index:100;
+  background:var(--card);border-top:1px solid var(--border);
+  padding:6px 16px;display:flex;align-items:center;justify-content:center;gap:6px;
+  font-size:.72rem;
 }
-.footer-links{
-  text-align:center;margin-bottom:16px;font-size:.85rem;
-}
+.footer-links{display:flex;align-items:center;gap:4px}
 .footer-links a{color:var(--accent);text-decoration:none;font-weight:500}
 .footer-links a:hover{text-decoration:underline}
-.footer-sep{color:var(--t3);margin:0 8px}
-.footer-disclaimer{
-  font-size:.72rem;color:var(--t3);line-height:1.5;
-}
+.footer-sep{color:var(--t3);margin:0 4px}
+.footer-beta{color:var(--t3);font-style:italic}
+.footer-disclaimer{display:none}
 
 /* Loading */
 .loading{text-align:center;padding:60px 24px;color:var(--t3)}
@@ -311,8 +311,10 @@ header{
   <div class="footer-links">
     <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Feedback">Share Feedback</a>
     <span class="footer-sep">·</span>
-    <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Event">Share Events</a>
+    <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Add%20Event">Add Events</a>
   </div>
+  <span class="footer-sep">·</span>
+  <span class="footer-beta">Beta</span>
   <div class="footer-disclaimer" id="disclaimer"></div>
 </footer>
 

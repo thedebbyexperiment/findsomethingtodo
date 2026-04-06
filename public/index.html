@@ -144,6 +144,9 @@ header{
   display:inline-block;background:#ECFDF5;color:#059669;font-size:.76rem;
   font-weight:700;padding:3px 10px;border-radius:6px;
 }
+.card-price .check-price{
+  display:inline-block;font-size:.72rem;color:var(--t3);font-weight:500;
+}
 .card-body{padding:10px 18px 14px;flex:1}
 .card-desc{font-size:.84rem;color:var(--t2);line-height:1.45;margin-bottom:12px;
   display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;
@@ -556,8 +559,10 @@ async function loadData() {
       lng: typeof a.lng === 'number' ? a.lng : 0,
       ageMin: typeof a.age_min === 'number' ? a.age_min : 0,
       ageMax: typeof a.age_max === 'number' ? a.age_max : 12,
-      price: typeof a.price_min === 'number' ? a.price_min : 0,
-      pL: a.price_display || (a.price_min ? '$' + a.price_min : 'Free'),
+      price: typeof a.price_min === 'number' ? a.price_min
+        : ({'nypl':1,'nyc_parks':1}[a.source]) ? 0 : null,
+      pL: a.price_display || '',
+      src: a.source || '',
       in: !!a.indoor,
       hrs: a.hours || '',
       url: a.url || '',
@@ -669,7 +674,7 @@ function go() {
     if (F.pv === 'required' && a.pv === 'not_required') return false;
     if (F.indoor && !F.outdoor && !a.in) return false;
     if (F.outdoor && !F.indoor && a.in) return false;
-    if (F.maxPrice !== Infinity && a.price > F.maxPrice) return false;
+    if (F.maxPrice !== Infinity && (a.price === null || a.price > F.maxPrice)) return false;
     return true;
   });
 
@@ -691,8 +696,8 @@ function go() {
   }
 
   if (sort === 'distance' && uc) list.sort((a, b) => a._d - b._d);
-  else if (sort === 'price-low') list.sort((a, b) => a.price - b.price);
-  else if (sort === 'price-high') list.sort((a, b) => b.price - a.price);
+  else if (sort === 'price-low') list.sort((a, b) => (a.price ?? 9999) - (b.price ?? 9999));
+  else if (sort === 'price-high') list.sort((a, b) => (b.price ?? -1) - (a.price ?? -1));
   else list.sort((a, b) => wscore(a) - wscore(b));
 
   render(list);
@@ -710,9 +715,11 @@ function render(list) {
 
   grid.innerHTML = list.map(a => {
     const dist = a._d !== null ? a._d.toFixed(1) + ' mi' : '';
-    const price = a.price === 0
-      ? '<span class="free">Free</span>'
-      : '<div class="amt">$' + esc(String(a.price % 1 === 0 ? a.price : a.price.toFixed(2))) + '</div><div class="note">per person</div>';
+    const price = a.price === null
+      ? '<span class="check-price">Check price</span>'
+      : a.price === 0
+        ? '<span class="free">Free</span>'
+        : '<div class="amt">$' + esc(String(a.price % 1 === 0 ? a.price : a.price.toFixed(2))) + '</div><div class="note">per person</div>';
 
     // Weather warning
     let warn = '';

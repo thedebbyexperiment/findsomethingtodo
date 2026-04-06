@@ -162,11 +162,17 @@ header{
 .card-link:hover{text-decoration:underline}
 
 /* Disclaimer */
-.disclaimer{
-  max-width:960px;margin:0 auto;padding:16px 24px 40px;
+.site-footer{
+  max-width:960px;margin:0 auto;padding:24px 24px 40px;border-top:1px solid var(--border);
 }
-.disclaimer-text{
-  font-size:.72rem;color:var(--t3);line-height:1.5;border-top:1px solid var(--border);padding-top:16px;
+.footer-links{
+  text-align:center;margin-bottom:16px;font-size:.85rem;
+}
+.footer-links a{color:var(--accent);text-decoration:none;font-weight:500}
+.footer-links a:hover{text-decoration:underline}
+.footer-sep{color:var(--t3);margin:0 8px}
+.footer-disclaimer{
+  font-size:.72rem;color:var(--t3);line-height:1.5;
 }
 
 /* Loading */
@@ -297,9 +303,14 @@ header{
 <div class="loading" id="loading"><h3>Loading activities...</h3></div>
 <div class="empty" id="empty" style="display:none"><h3>Nothing matches</h3><p>Try fewer filters.</p></div>
 
-<div class="disclaimer">
-  <div class="disclaimer-text" id="disclaimer"></div>
-</div>
+<footer class="site-footer">
+  <div class="footer-links">
+    <a href="mailto:thedebbyexperiment@gmail.com?subject=FindSomethingToDo%20Feedback">Something wrong? Let us know</a>
+    <span class="footer-sep">·</span>
+    <a href="mailto:thedebbyexperiment@gmail.com?subject=Suggest%20an%20Activity">Know a great spot? Tell us</a>
+  </div>
+  <div class="footer-disclaimer" id="disclaimer"></div>
+</footer>
 
 <script>
 /* ============================================================
@@ -557,7 +568,7 @@ async function loadData() {
 
     // Show disclaimer
     if (data.disclaimer) {
-      document.getElementById('disclaimer').textContent = data.disclaimer.full;
+      document.getElementById('disclaimer').textContent = data.disclaimer.short + ' Always confirm details with the venue before attending.';
     }
 
     document.getElementById('loading').style.display = 'none';

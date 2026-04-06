@@ -412,6 +412,7 @@ function getTodayTomorrowDates() {
   const tomorrow = new Date(today); tomorrow.setDate(tomorrow.getDate() + 1);
   return [today, tomorrow];
 }
+function fmtDate(d) { return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); }
 
 const WMO_ICONS = {
   0:'\u2600\uFE0F',1:'\uD83C\uDF24\uFE0F',2:'\u26C5',3:'\u2601\uFE0F',
@@ -444,10 +445,9 @@ function isRainy(code) { return RAIN_CODES.has(code); }
 async function loadWeather() {
   try {
     const [today, tomorrow] = getTodayTomorrowDates();
-    const fmt = d => d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
     const url = 'https://api.open-meteo.com/v1/forecast?latitude=40.7128&longitude=-74.006' +
       '&hourly=temperature_2m,weather_code&temperature_unit=fahrenheit' +
-      '&start_date=' + fmt(today) + '&end_date=' + fmt(tomorrow) +
+      '&start_date=' + fmtDate(today) + '&end_date=' + fmtDate(tomorrow) +
       '&timezone=America%2FNew_York';
     const resp = await fetch(url);
     if (!resp.ok) return;
@@ -570,6 +570,8 @@ async function loadData() {
       res: !!a.reservation_required,
       t: Array.isArray(a.time_slots) ? a.time_slots : ['morning','afternoon'],
       seasonal: a.seasonal || null,
+      eDate: a.event_date || null,
+      dtype: a.data_type || 'venue',
     }));
 
     // Show disclaimer
@@ -662,9 +664,15 @@ function go() {
   if (zip && Z[zip]) uc = Z[zip];
   else if (zip && zip.length === 5) uc = [40.7549, -73.984]; // default NYC center
 
+  const [today, tomorrow] = getTodayTomorrowDates();
+  const todayStr = fmtDate(today);
+  const tomorrowStr = fmtDate(tomorrow);
+
   let list = D.filter(a => {
     // Filter out cancelled events
     if (/\bcancell?ed\b/i.test(a.n)) return false;
+    // Events with specific dates only show on that date (today or tomorrow)
+    if (a.eDate && a.eDate !== todayStr && a.eDate !== tomorrowStr) return false;
     if (a.seasonal && !inSeason(a.seasonal)) return false;
     if (age) {
       const [lo, hi] = age.split('-').map(Number);

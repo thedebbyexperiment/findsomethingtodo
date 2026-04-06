@@ -1064,6 +1064,32 @@ CURATED_VENUES: list[dict] = [
         "indoor": False,
         "recurring_programs": [],
     },
+    {
+        "name": "Washington Square Park Playground",
+        "address": "Washington Square S, New York, NY 10012",
+        "lat": 40.7298,
+        "lng": -73.9975,
+        "url": "https://www.nycgovparks.org/parks/washington-square-park",
+        "category": "Playground",
+        "experience_type": ExperienceType.active,
+        "age_min": 0,
+        "age_max": 12,
+        "indoor": False,
+        "recurring_programs": [],
+    },
+    {
+        "name": "Pier 40 Playground",
+        "address": "Pier 40, 353 West St, New York, NY 10014",
+        "lat": 40.7285,
+        "lng": -74.0117,
+        "url": "https://hudsonriverpark.org/the-park/parks-attractions/pier-40/",
+        "category": "Playground",
+        "experience_type": ExperienceType.active,
+        "age_min": 0,
+        "age_max": 12,
+        "indoor": False,
+        "recurring_programs": [],
+    },
     # -----------------------------------------------------------------------
     # Event centers (venues only — events come from Ticketmaster)
     # -----------------------------------------------------------------------
@@ -1209,26 +1235,30 @@ class CuratedScraper(BaseScraper):
             venue_id = f"curated-{slug}"
 
             # --- Venue activity -------------------------------------------
-            venue_activity = Activity(
-                id=venue_id,
-                name=venue["name"],
-                category=venue["category"],
-                experience_type=venue["experience_type"],
-                parent_participation=ParentParticipation.required,
-                description=f'{venue["name"]} — family-friendly {venue["category"].lower()} in NYC.',
-                address=venue["address"],
-                lat=venue.get("lat"),
-                lng=venue.get("lng"),
-                age_min=venue.get("age_min", 0),
-                age_max=venue.get("age_max", 12),
-                indoor=venue.get("indoor"),
-                url=venue["url"],
-                source="curated",
-                source_id=venue_id,
-                data_type=DataType.venue,
-                last_updated=now,
-            )
-            activities.append(venue_activity)
+            # Only emit the bare venue if it has NO recurring programs.
+            # When programs exist, they carry better info (hours, description)
+            # and showing both creates duplicate cards.
+            if not venue.get("recurring_programs"):
+                venue_activity = Activity(
+                    id=venue_id,
+                    name=venue["name"],
+                    category=venue["category"],
+                    experience_type=venue["experience_type"],
+                    parent_participation=ParentParticipation.required,
+                    description=f'{venue["name"]} — family-friendly {venue["category"].lower()} in NYC.',
+                    address=venue["address"],
+                    lat=venue.get("lat"),
+                    lng=venue.get("lng"),
+                    age_min=venue.get("age_min", 0),
+                    age_max=venue.get("age_max", 12),
+                    indoor=venue.get("indoor"),
+                    url=venue["url"],
+                    source="curated",
+                    source_id=venue_id,
+                    data_type=DataType.venue,
+                    last_updated=now,
+                )
+                activities.append(venue_activity)
 
             # --- Recurring program activities -----------------------------
             for prog in venue.get("recurring_programs", []):

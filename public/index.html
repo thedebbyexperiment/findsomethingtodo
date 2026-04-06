@@ -542,7 +542,7 @@ function inSeason(s){
 // --- Load activities from JSON ---
 async function loadData() {
   try {
-    const resp = await fetch('data/activities.json');
+    const resp = await fetch('data/activities.json?v=' + Date.now());
     if (!resp.ok) throw new Error('Failed to load activities');
     const data = await resp.json();
 
@@ -560,7 +560,7 @@ async function loadData() {
       ageMin: typeof a.age_min === 'number' ? a.age_min : 0,
       ageMax: typeof a.age_max === 'number' ? a.age_max : 12,
       price: typeof a.price_min === 'number' ? a.price_min
-        : ({'nypl':1,'nyc_parks':1}[a.source]) ? 0 : null,
+        : ({'nypl':1,'nyc_parks':1,'curated':1}[a.source]) ? 0 : null,
       pL: a.price_display || '',
       src: a.source || '',
       in: !!a.indoor,

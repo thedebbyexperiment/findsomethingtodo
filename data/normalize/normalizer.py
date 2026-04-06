@@ -23,6 +23,7 @@ BATCH_PROMPT = """For each event below, determine:
    - Bars, nightclubs, adult comedy, explicit concerts
    - Schools, academies, or programs that REQUIRE enrollment or semester registration (e.g. music schools, dance academies, martial arts dojos that only offer enrolled classes — unless they explicitly have drop-in or open-play options)
    - Private clubs or members-only facilities with no public access
+   - Grocery stores, supermarkets, wholesale suppliers, pet stores (not attractions)
 2. If suitable, extract structured fields.
 
 Return a JSON array where each element has:
@@ -32,8 +33,14 @@ Return a JSON array where each element has:
 - age_max: integer 0-12 (default 12 if unclear)
 - experience_type: one of "active", "creative", "educational", "nature", "performance", "events"
 - parent_participation: "not_required" or "required"
+  Rules for parent_participation:
+  - "required" = the parent must ACTIVELY PARTICIPATE in the activity alongside the child (e.g. parent-child yoga, family cooking class, toddler swim where parent is in the water)
+  - "not_required" = the child does the activity and the parent can watch, wait, or drop off (e.g. museum visit, playground, kids art class, sports game). Note: a parent needing to SUPERVISE young children does NOT make it "required" — only activities where the parent IS a participant count as "required"
 - indoor: true or false
 - time_slots: array of "morning", "afternoon", "evening"
+- category: a short, parent-friendly category label (e.g. "Museum", "Playground", "Theater", "Sports", "Art Studio", "Library", "Zoo", "Aquarium", "Bowling", "Classes", "Festival", "Concert", "Park", "Garden", "Swimming", "Ice Skating", "Trampoline Park"). Use your best judgment — pick the most specific label that a parent would find useful. Avoid generic labels like "Entertainment" or "Recreation".
+- short_description: If the event's description is empty or very generic, write ONE sentence (max 20 words) describing what a parent and kids would actually experience there. If the description is already good, return null.
+- quality_flag: null if everything looks normal, or a string describing the issue if something seems wrong. Flag things like: appears to be a grocery/retail store not an attraction, likely permanently closed, name suggests adult-only venue, price seems wrong for this type of venue, duplicate or suspicious listing. This helps us catch bad data.
 
 Events:
 {events_text}
@@ -74,7 +81,8 @@ def _needs_llm_review(a: Activity) -> bool:
 
 def _format_event(i: int, a: Activity) -> str:
     desc = a.description[:150] if a.description else ""
-    return f"[{i}] Name: {a.name} | Category: {a.category} | Description: {desc} | Hours: {a.hours}"
+    price = a.price_display or (f"${a.price_min}-${a.price_max}" if a.price_min is not None else "")
+    return f"[{i}] Name: {a.name} | Category: {a.category} | Description: {desc} | Hours: {a.hours} | Price: {price} | Address: {a.address}"
 
 
 def _apply_llm_fields(activity: Activity, data: dict) -> None:
@@ -104,6 +112,10 @@ def _apply_llm_fields(activity: Activity, data: dict) -> None:
                 pass
         if slots:
             activity.time_slots = slots
+    if data.get("category"):
+        activity.category = data["category"]
+    if data.get("short_description") and not activity.description:
+        activity.description = data["short_description"]
 
 
 def normalize_with_llm(activities: list[Activity]) -> list[Activity]:
@@ -145,6 +157,7 @@ def normalize_with_llm(activities: list[Activity]) -> list[Activity]:
 
     kept = list(auto_approved)
     removed = 0
+    flagged = []
 
     for batch_start in range(0, len(needs_review), BATCH_SIZE):
         batch = needs_review[batch_start : batch_start + BATCH_SIZE]
@@ -182,8 +195,12 @@ def normalize_with_llm(activities: list[Activity]) -> list[Activity]:
 
                 if not data.get("is_family_friendly", True):
                     removed += 1
-                    logger.debug("Filtered out: %s", activity.name)
+                    logger.info("Filtered out: %s", activity.name)
                     continue
+
+                if data.get("quality_flag"):
+                    logger.warning("Quality flag for '%s': %s", activity.name, data["quality_flag"])
+                    flagged.append((activity.name, data["quality_flag"]))
 
                 _apply_llm_fields(activity, data)
                 kept.append(activity)
@@ -203,5 +220,9 @@ def normalize_with_llm(activities: list[Activity]) -> list[Activity]:
         if batch_start + BATCH_SIZE < len(needs_review):
             time.sleep(1.5)
 
-    logger.info("LLM filtering complete: kept %d, removed %d non-family-friendly", len(kept), removed)
+    logger.info("LLM filtering complete: kept %d, removed %d non-family-friendly, %d flagged", len(kept), removed, len(flagged))
+    if flagged:
+        logger.info("=== QUALITY FLAGS (review before deploy) ===")
+        for name, flag in flagged:
+            logger.info("  ⚠ %s — %s", name, flag)
     return kept

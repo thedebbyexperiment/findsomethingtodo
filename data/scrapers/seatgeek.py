@@ -117,6 +117,12 @@ class SeatGeekScraper(BaseScraper):
             lowest = stats.get("lowest_price")
             highest = stats.get("highest_price")
 
+            # Treat $0 as unknown — ticketed events are never truly free
+            if lowest is not None and lowest <= 0:
+                lowest = None
+            if highest is not None and highest <= 0:
+                highest = None
+
             # Build price display
             if lowest and highest and lowest != highest:
                 price_display = f"${lowest}–${highest}/ticket"

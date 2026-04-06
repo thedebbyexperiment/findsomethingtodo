@@ -67,6 +67,12 @@ def _extract_price(price_ranges: list[dict]) -> tuple[float | None, float | None
     price_min = min(mins) if mins else None
     price_max = max(maxs) if maxs else None
 
+    # Treat $0 as unknown — ticketed events are never truly free
+    if price_min is not None and price_min <= 0:
+        price_min = None
+    if price_max is not None and price_max <= 0:
+        price_max = None
+
     if price_min is not None and price_max is not None:
         if price_min == price_max:
             return price_min, price_max, f"${price_min:.0f}"

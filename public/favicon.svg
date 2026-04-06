@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <!-- Warm coral circle matching site accent #D4593A -->
+  <circle cx="50" cy="50" r="50" fill="#D4593A"/>
+  <!-- Map pin icon (white) suggesting "find something" -->
+  <path d="M50 18C37 18 27 28 27 40.5C27 57 50 82 50 82S73 57 73 40.5C73 28 63 18 50 18Z" fill="white"/>
+  <circle cx="50" cy="40" r="10" fill="#D4593A"/>
+</svg>

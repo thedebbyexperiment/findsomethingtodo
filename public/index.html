@@ -97,7 +97,7 @@ header{
 /* Price slider */
 .price-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
 .price-label{font-size:.82rem;color:var(--t2);font-weight:500;width:70px;flex-shrink:0}
-.slider-val{font-size:.82rem;color:var(--text);width:50px;flex-shrink:0;text-align:right}
+.slider-val{font-size:.82rem;color:var(--text);width:70px;flex-shrink:0;text-align:right;white-space:nowrap}
 .price-slider{
   flex:1;max-width:260px;-webkit-appearance:none;appearance:none;height:4px;
   background:var(--border);border-radius:2px;outline:none;cursor:pointer;
@@ -197,7 +197,7 @@ header{
   .price-row{flex-wrap:wrap}
   .price-slider{max-width:100%}
   .price-label{width:65px}
-  .slider-val{width:45px}
+  .slider-val{width:65px}
 }
 </style>
 </head>
@@ -612,7 +612,7 @@ document.getElementById('priceSlider').addEventListener('input', function() {
 
 // --- Distance slider ---
 const distStops = [0.25, 0.5, 0.75, 1, Infinity];
-const distLabels = ['0.25 mi', '0.5 mi', '0.75 mi', '1 mi', '1+ mi'];
+const distLabels = ['\u22640.25 mi', '\u22640.5 mi', '\u22640.75 mi', '\u22641 mi', 'Any'];
 
 document.getElementById('distSlider').addEventListener('input', function() {
   const i = parseInt(this.value);

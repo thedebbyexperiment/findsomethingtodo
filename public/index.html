@@ -96,8 +96,8 @@ header{
 
 /* Price slider */
 .price-row{display:flex;align-items:center;gap:12px;margin-bottom:8px}
-.price-label{font-size:.82rem;color:var(--t2);font-weight:500;width:110px;flex-shrink:0}
-.price-label strong{color:var(--text)}
+.price-label{font-size:.82rem;color:var(--t2);font-weight:500;width:70px;flex-shrink:0}
+.slider-val{font-size:.82rem;color:var(--text);width:50px;flex-shrink:0;text-align:right}
 .price-slider{
   flex:1;max-width:260px;-webkit-appearance:none;appearance:none;height:4px;
   background:var(--border);border-radius:2px;outline:none;cursor:pointer;
@@ -196,7 +196,8 @@ header{
   .price-row{padding:0 24px}
   .price-row{flex-wrap:wrap}
   .price-slider{max-width:100%}
-  .price-label{width:90px}
+  .price-label{width:65px}
+  .slider-val{width:45px}
 }
 </style>
 </head>
@@ -267,13 +268,15 @@ header{
   </div>
 
   <div class="price-row">
-    <span class="price-label">Price <strong id="priceVal">Any</strong></span>
+    <span class="price-label">Price</span>
     <input type="range" class="price-slider" id="priceSlider" min="0" max="5" value="5" step="1">
+    <strong class="slider-val" id="priceVal">Any</strong>
   </div>
 
   <div class="price-row">
-    <span class="price-label">Distance <strong id="distVal">Any</strong></span>
+    <span class="price-label">Distance</span>
     <input type="range" class="price-slider" id="distSlider" min="0" max="4" value="4" step="1">
+    <strong class="slider-val" id="distVal">Any</strong>
   </div>
 </div>
 

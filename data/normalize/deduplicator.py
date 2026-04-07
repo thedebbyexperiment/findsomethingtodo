@@ -16,6 +16,7 @@ SOURCE_PRIORITY = {
     "nyc_parks": 2,      # free events
     "nypl": 2,           # free events
     "ticketmaster": 2,   # ticketed events
+    "patch": 2,          # community events
     "google_places": 1,  # enrichment only — lowest priority
 }
 

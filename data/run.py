@@ -32,6 +32,7 @@ from scrapers.nyc_parks import NYCParksScraper
 from scrapers.google_places import GooglePlacesScraper
 from scrapers.nypl import NYPLScraper
 from scrapers.curated import CuratedScraper
+from scrapers.patch import PatchScraper
 
 logging.basicConfig(
     level=logging.INFO,
@@ -47,10 +48,11 @@ SCRAPERS = {
     "google_places": GooglePlacesScraper,
     "nypl": NYPLScraper,
     "curated": CuratedScraper,
+    "patch": PatchScraper,
 }
 
 TIERS = {
-    1: ["seatgeek", "ticketmaster", "eventbrite", "nyc_parks", "google_places"],
+    1: ["seatgeek", "ticketmaster", "eventbrite", "nyc_parks", "google_places", "patch"],
     2: ["nypl", "curated"],
 }
 

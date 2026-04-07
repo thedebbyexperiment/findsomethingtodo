@@ -20,6 +20,16 @@ GENRE_MAP = {
     "music": ExperienceType.performance,
     "film": ExperienceType.performance,
     "comedy": ExperienceType.performance,
+    "classical": ExperienceType.performance,
+    "opera": ExperienceType.performance,
+    "ballet": ExperienceType.performance,
+    "orchestra": ExperienceType.performance,
+    "symphony": ExperienceType.performance,
+    "theatre": ExperienceType.performance,
+    "musical": ExperienceType.performance,
+    "performing arts": ExperienceType.performance,
+    "fine art": ExperienceType.performance,
+    "cultural": ExperienceType.performance,
     "athletic": ExperienceType.active,
     "sports": ExperienceType.active,
     "baseball": ExperienceType.active,
@@ -118,6 +128,11 @@ class TicketmasterScraper(BaseScraper):
         "baseball", "basketball", "hockey", "soccer",
         "broadway kids", "lion king", "aladdin", "wicked", "frozen",
         "auto show", "monster truck", "car show", "monster jam",
+        # Performing arts — orchestra, opera, ballet, community theater
+        "philharmonic", "orchestra", "opera", "ballet", "nutcracker",
+        "young people concert", "lincoln center", "carnegie hall",
+        "community theater", "community theatre", "children's theater",
+        "dance performance", "recital",
     ]
 
     # Major event centers — fetch ALL upcoming events at these venues
@@ -131,6 +146,15 @@ class TicketmasterScraper(BaseScraper):
         "KovZpZAFtJAA",  # Citi Field
         "KovZpZAFaEnA",  # Yankee Stadium
         "KovZpZAFae7A",  # MetLife Stadium
+        # Performing arts venues
+        "KovZpZAFaEJA",  # David Geffen Hall (NY Philharmonic)
+        "KovZpZAFaEIA",  # Lincoln Center - various
+        "KovZpZAFaEeA",  # Metropolitan Opera House
+        "KovZpZAFaEFA",  # Carnegie Hall
+        "KovZpZAFaEAA",  # David H. Koch Theater (NYC Ballet)
+        "KovZpZAFaJkA",  # BAM - Brooklyn Academy of Music
+        "KovZpZAFnFEA",  # New York City Center
+        "KovZpZAFaEkA",  # Radio City Music Hall
     ]
 
     def fetch_raw(self) -> list[dict]:

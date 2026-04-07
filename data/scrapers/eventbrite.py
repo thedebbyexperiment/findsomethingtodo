@@ -19,6 +19,13 @@ SEARCH_URLS = [
     "https://www.eventbrite.com/d/ny--new-york/children--events/?page={}",
     "https://www.eventbrite.com/d/ny--new-york/museum-family--events/?page={}",
     "https://www.eventbrite.com/d/ny--new-york/kids-art-workshop--events/?page={}",
+    # Performing arts
+    "https://www.eventbrite.com/d/ny--new-york/kids-theater--events/?page={}",
+    "https://www.eventbrite.com/d/ny--new-york/kids-music--events/?page={}",
+    "https://www.eventbrite.com/d/ny--new-york/kids-dance--events/?page={}",
+    "https://www.eventbrite.com/d/ny--new-york/family-concert--events/?page={}",
+    "https://www.eventbrite.com/d/ny--new-york/children-ballet--events/?page={}",
+    "https://www.eventbrite.com/d/ny--new-york/community-theater--events/?page={}",
 ]
 
 MAX_PAGES_PER_SEARCH = 3

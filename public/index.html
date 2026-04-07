@@ -514,8 +514,8 @@ async function loadWeather() {
       };
     }
 
-    const todayStats = dayStats(fmt(today));
-    const tomorrowStats = dayStats(fmt(tomorrow));
+    const todayStats = dayStats(fmtDate(today));
+    const tomorrowStats = dayStats(fmtDate(tomorrow));
 
     W.today = {morning: todayStats.morning, afternoon: todayStats.afternoon, evening: todayStats.evening};
     W.tomorrow = {morning: tomorrowStats.morning, afternoon: tomorrowStats.afternoon, evening: tomorrowStats.evening};

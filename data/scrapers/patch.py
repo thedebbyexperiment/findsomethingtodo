@@ -23,8 +23,8 @@ NEIGHBORHOOD_CALENDARS = [
     "https://patch.com/new-york/midtown-nyc/calendar",
     "https://patch.com/new-york/gramercy-murray-hill/calendar",
     "https://patch.com/new-york/new-york-city/calendar",
-    "https://patch.com/new-york/park-slope/calendar",
-    "https://patch.com/new-york/williamsburg-greenpoint/calendar",
+    "https://patch.com/new-york/parkslope/calendar",
+    "https://patch.com/new-york/williamsburg/calendar",
     "https://patch.com/new-york/heights-dumbo/calendar",
     "https://patch.com/new-york/astoria-long-island-city/calendar",
 ]

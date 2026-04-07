@@ -377,26 +377,124 @@ function fmt12(s) {
 
 // --- Clean up bad Google Places categories ---
 const CAT_REMAP = {
-  'Sports School':'Classes','Educational Institution':'Learning Center',
-  'Sports Activity Location':'Activity Center',
-  'Sports Club':'Activity Center','Sports Complex':'Activity Center',
-  'Sports & Swim':'Activity Center','Exercise Classes':'Classes',
-  'Child Care Agency':'Childcare','Childrens Camp':'Camp',
-  'Summer Camp Organizer':'Camp','Non Profit Organization':'Community',
-  'Association Or Organization':'Community','Consultant':'Classes',
-  'Coworking Space':'Community Center','Internet Cafe':'Activity Center',
-  'Parking Lot':'Venue','Shopping Mall':'Venue','Grocery Store':'Market',
-  'Supermarket':'Market','Food Court':'Food','Cafeteria':'Food',
-  'Catering Service':'Food','Vegetarian Restaurant':'Food','Restaurant':'Food',
-  'Primary School':'Classes','Preschool':'Classes','College':'Classes',
-  'Scenic Spot':'Park','City Park':'Park','Nature Preserve':'Nature Center',
-  'Historical Landmark':'Museum','Paintball Center':'Activity Center',
-  'Alternative Rock':'Concert','Nu-Metal':'Concert','Classical/Vocal':'Concert',
-  'Miscellaneous':'Activity','Professional':'Sports','Motorsports/Racing':'Sports',
-  'Running/Jogging':'Sports','Walking':'Activity','Observation Deck':'Attraction',
+  // Sports consolidation
+  'Sports Club':'Sports','Sports Complex':'Sports','Sports Event':'Sports',
+  'Sports Gym':'Sports','Sports Studio':'Sports','Sports & Swim':'Sports',
+  'Exercise Classes':'Sports','Gym':'Sports','Fun Run':'Sports',
+  'Martial Arts':'Sports','Baseball':'Sports','NBA':'Sports','NHL':'Sports',
+  'MLB':'Sports','Minor League':'Sports','Basketball Show':'Sports',
+  'Sports School':'Sports','Professional':'Sports','Motorsports/Racing':'Sports',
+  'Running/Jogging':'Sports',
+
+  // Climbing
+  'Climbing':'Rock Climbing','Climbing Gym':'Rock Climbing',
+
+  // Swimming
+  'Swimming Pool':'Swimming',
+
+  // Ice skating
+  'Ice Skating Rink':'Ice Skating',
+
+  // Bowling
+  'Bowling Alley':'Bowling',
+
+  // Mini golf
+  'Mini Golf':'Mini Golf','Miniature Golf':'Mini Golf',
+  'Miniature Golf Course':'Mini Golf','Indoor Golf Course':'Mini Golf',
+  'Golf Course':'Mini Golf','Golf':'Mini Golf',
+
+  // Arcades & fun centers
+  'Video Arcade':'Arcade','Laser Tag & Arcade':'Arcade',
+  'Amusement Center':'Arcade','Go Kart Racing':'Arcade',
+  'Nerf & Escape Room':'Escape Room',
+
+  // Museums & culture
+  'Art Museum':'Museum','History Museum':'Museum','Science Museum':'Museum',
+  'Art Gallery':'Museum','Planetarium':'Museum','Visitor Center':'Museum',
+  'Historical Landmark':'Museum',
+
+  // Theater & performing arts
+  "Children's Theater":'Theater','Performing Arts':'Theater',
+  'Performing Arts Theater':'Theater','Theater Workshop':'Theater',
+  'Comedy Show':'Theater','Magic Show':'Theater','Circus':'Theater',
+  'Laser Show':'Theater','Performance':'Theater',
+
+  // Music
+  'Music Class':'Music Classes','Music Festival':'Concert',
+  'Classical/Vocal':'Concert','Alternative Rock':'Concert','Nu-Metal':'Concert',
+
+  // Dance
+  'Dance Class':'Dance Classes','Dance Party':'Dance Classes',
+  'Dance Hall':'Dance Classes',
+
+  // Art
+  'Art Workshop':'Art Studio','Art Fair':'Art Studio',
+
+  // Cooking
+  'Cooking Class':'Cooking Classes','Candy Making':'Cooking Classes',
+
+  // Books & reading
+  'Book Store':'Bookstore','Book Event':'Bookstore','Book Swap':'Bookstore',
+  'Library Program':'Library',
+
+  // Classes & education
+  'Educational Institution':'Classes','Workshop':'Classes',
+  'Workshops':'Classes','Lecture':'Classes',
+
+  // Parks & nature
+  'City Park':'Park','Park Event':'Park','Nature Preserve':'Nature Walk',
+  'Botanical Garden':'Garden','Scenic Spot':'Park',
+
+  // Playgrounds & play
+  'Indoor Play':'Indoor Playground','Play Center':'Indoor Playground',
+
+  // Markets
+  'Flea Market':'Market','Farmers Market':'Market',
+
+  // Events
+  'Family Event':'Festival','Community Event':'Festival',
+  'Cultural Event':'Festival','Family Party':'Festival',
+  'Community Meetup':'Festival','School Event':'Festival',
+  'Resource Fair':'Festival','Fundraiser':'Festival',
+  'Restaurant Event':'Festival','Movie Event':'Festival',
+  'Dog Show':'Festival',
+
+  // Venues & misc
+  'Event Center':'Community Center','Convention Center':'Community Center',
+  'Cultural Center':'Community Center','Event Venue':'Community Center',
+  'Non Profit Organization':'Community Center',
+  'Association Or Organization':'Community Center',
+  'Birthday Party Venue':'Party Venue',
+
+  // Attractions
   'Tourist Attraction':'Attraction','Point Of Interest':'Attraction',
-  'Fitness Center':'Activity Center','Dance Hall':'Dance Classes',
+  'Observation Deck':'Attraction','Immersive Experience':'Attraction',
+  'Cruise':'Attraction','Family Experience Store':'Attraction',
   'Theme Park & Entertainment':'Amusement Park',
+
+  // Shopping (shouldn't really be here but clean up)
+  'Shopping Mall':'Attraction','Gift Shop':'Toy Store','Store':'Toy Store',
+  'Parking Lot':'Attraction',
+
+  // Food
+  'Food Court':'Food','Restaurant':'Food','Cafeteria':'Food',
+  'Catering Service':'Food','Vegetarian Restaurant':'Food',
+  'Bar':'Food',
+
+  // Camps
+  'Day Camp':'Classes','Childrens Camp':'Classes',
+  'Summer Camp Organizer':'Classes',
+
+  // Other
+  'Family & Education':'Classes','STEM Classes':'Classes',
+  'Parent Group':'Community Center','Movie Rental':'Movie Theater',
+  'Walking':'Nature Walk','Paintball':'Sports',
+  'Coworking Space':'Community Center','Internet Cafe':'Attraction',
+  'Primary School':'Classes','Preschool':'Classes','College':'Classes',
+  'Consultant':'Classes','Grocery Store':'Market','Supermarket':'Market',
+  'Fitness Center':'Sports','Child Care Agency':'Classes',
+  'Other':'Attraction','Miscellaneous':'Attraction',
+  'Sports Activity Location':'Sports',
 };
 function cleanCat(c) { return CAT_REMAP[c] || c; }
 

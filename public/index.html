@@ -802,7 +802,7 @@ function render(list) {
       '</div>' +
       '<div class="card-foot">' +
         '<span class="card-dist">' + esc(dist) + '</span>' +
-        '<a class="card-link" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">Learn more &rarr;</a>' +
+        (href !== '#' ? '<a class="card-link" href="' + esc(href) + '" target="_blank" rel="noopener noreferrer">Learn more &rarr;</a>' : '') +
       '</div>' +
     '</div>';
   }).join('');
